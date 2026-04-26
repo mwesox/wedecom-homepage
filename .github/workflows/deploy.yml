@@ -36,9 +36,10 @@ jobs:
           SFTP_PASSWORD: ${{ secrets.SFTP_PASSWORD }}
           SFTP_REMOTE_PATH: ${{ secrets.SFTP_REMOTE_PATH }}
         run: |
-          lftp <<LFTP_EOF
-          set sftp:auto-confirm yes
-          open -u $SFTP_USER,$SFTP_PASSWORD -p $SFTP_PORT sftp://$SFTP_HOST
-          mirror -R --delete --verbose ./dist "$SFTP_REMOTE_PATH"
-          bye
-          LFTP_EOF
+          # Escape characters lftp would otherwise interpret in -u argument
+          ESC_PASS=${SFTP_PASSWORD//\\/\\\\}
+          ESC_PASS=${ESC_PASS//\"/\\\"}
+          ESC_PASS=${ESC_PASS//\$/\\\$}
+          ESC_PASS=${ESC_PASS//,/\\,}
+
+          lftp -p "$SFTP_PORT" -u "$SFTP_USER,$ESC_PASS" "sftp://$SFTP_HOST" -e "set sftp:auto-confirm yes; mirror -R --delete --verbose ./dist \"$SFTP_REMOTE_PATH\"; bye"
