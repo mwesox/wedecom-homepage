@@ -1,33 +1,37 @@
 /* ---------------------------------------------------------
  * Fonts (must precede @import "tailwindcss")
  * JetBrains Mono — single typeface, used everywhere.
- * The all-mono commitment is itself the design.
  * ---------------------------------------------------------*/
 @import url("https://fonts.googleapis.com/css2?family=JetBrains+Mono:ital,wght@0,400;0,500;0,600;0,700;0,800;1,400&display=swap");
 
 @import "tailwindcss";
 
 /* ---------------------------------------------------------
- * Theme tokens — three colours, light, warm.
+ * Theme tokens
  * ---------------------------------------------------------*/
 @theme {
   --color-paper:       #FAFAF7;
-  --color-paper-deep:  #F2EFE9;   /* status panel background, code backgrounds */
-  --color-paper-edge:  #ECE8DF;   /* hairline rule */
+  --color-paper-deep:  #F2EFE9;
+  --color-paper-edge:  #ECE8DF;
   --color-ink:         #1F2937;
   --color-ink-soft:    #4B5563;
   --color-ink-mute:    #6B7280;
   --color-rule:        rgb(31 41 55 / 0.10);
   --color-rule-soft:   rgb(31 41 55 / 0.06);
-  --color-accent:      #F26922;   /* logo orange — reserved, not decorative */
+  --color-rule-invert: rgb(250 250 247 / 0.18);
+  --color-accent:      #F26922;
   --color-accent-soft: rgb(242 105 34 / 0.10);
 
   --font-mono:    "JetBrains Mono", ui-monospace, "SFMono-Regular", "Menlo", monospace;
   --font-sans:    "JetBrains Mono", ui-monospace, "SFMono-Regular", "Menlo", monospace;
   --font-display: "JetBrains Mono", ui-monospace, "SFMono-Regular", "Menlo", monospace;
 
-  --container-doc:  44rem;  /* ~720px reading column */
-  --container-wide: 78rem;  /* ~1248px editorial canvas */
+  --container-doc:  44rem;  /* reading column */
+  --container-wide: 78rem;  /* editorial canvas */
+
+  --pad-x:    1.5rem;
+  --pad-x-md: 2.5rem;
+  --pad-x-lg: 3rem;
 }
 
 /* ---------------------------------------------------------
@@ -48,8 +52,7 @@
 
   body {
     background-color: var(--color-paper);
-    background-image:
-      radial-gradient(rgb(31 41 55 / 0.045) 1px, transparent 1px);
+    background-image: radial-gradient(rgb(31 41 55 / 0.045) 1px, transparent 1px);
     background-size: 22px 22px;
     background-position: 0 0;
     min-height: 100vh;
@@ -67,7 +70,6 @@
     letter-spacing: -0.005em;
   }
 
-  /* Inline link — quiet, with orange underline grown on hover */
   .ink-link {
     color: var(--color-ink);
     text-decoration: none;
@@ -91,118 +93,214 @@
 }
 
 /* ---------------------------------------------------------
- * README-document utilities
+ * Layout primitives — the only things that control width and
+ * centering. Everything centers by default; cards opt out by
+ * using .md-shapes, which spans the full canvas.
  *
- * Every page is a centered column ≤44rem wide. Section
- * headings carry an orange `##` glyph that's part of the
- * mono character flow.
+ *   .md       narrow doc page (44rem)
+ *   .md-wide  wide editorial canvas (78rem)
+ *   .md-col   narrow reading column nested in .md-wide
+ *   .slab     full-bleed dark section (background + padding)
+ *
+ * All four center with margin auto and use shared padding tokens.
  * ---------------------------------------------------------*/
-.md {
-  width: 100%;
-  max-width: var(--container-doc);
-  margin-inline: auto;
-  padding-inline: 1.5rem;
-}
-@media (min-width: 768px) {
-  .md { padding-inline: 2rem; }
-}
-
-/* Wider editorial canvas — for the homepage hero, marquee, and offer grid.
-   Inner prose can still cap itself at the narrower reading column via .md-col. */
+.md,
 .md-wide {
   width: 100%;
-  max-width: var(--container-wide);
   margin-inline: auto;
-  padding-inline: 1.5rem;
+  padding-inline: var(--pad-x);
 }
+.md      { max-width: var(--container-doc); }
+.md-wide { max-width: var(--container-wide); }
+
 @media (min-width: 768px) {
-  .md-wide { padding-inline: 2.5rem; }
+  .md      { padding-inline: 2rem; }
+  .md-wide { padding-inline: var(--pad-x-md); }
 }
 @media (min-width: 1200px) {
-  .md-wide { padding-inline: 3rem; }
+  .md-wide { padding-inline: var(--pad-x-lg); }
 }
+
 .md-col {
   max-width: var(--container-doc);
+  margin-inline: 0;
+}
+
+.slab {
+  background: var(--color-ink);
+  color: var(--color-paper);
+  text-align: left;
+  padding: 4rem 0 4.5rem;
+}
+@media (min-width: 768px) {
+  .slab { padding: 6rem 0 7rem; }
+}
+
+/* Hero variant — asymmetric whitespace, soft seam to body */
+.slab--hero {
+  position: relative;
+  padding: 3.5rem 0 4rem;
+}
+@media (min-width: 768px) {
+  .slab--hero { padding: 5rem 0 5.5rem; }
+}
+.slab--hero::after {
+  content: "";
+  position: absolute;
+  inset: auto 0 0 0;
+  height: 3rem;
+  background: linear-gradient(
+    to bottom,
+    transparent 0%,
+    var(--color-paper) 100%
+  );
+  opacity: 0.08;
+  pointer-events: none;
+}
+.slab--hero .hero-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+}
+@media (min-width: 900px) {
+  .slab--hero .hero-grid {
+    grid-template-columns: minmax(0, 62%) 1fr;
+  }
+}
+.slab--hero .hero-col {
+  min-width: 0;
+}
+
+/* Inverted styles inside any slab — one place, applies everywhere */
+.slab .md-h2          { color: var(--color-paper); margin-top: 0; }
+.slab .md-h2::before,
+.slab .md-h2::after   { background: var(--color-rule-invert); }
+.slab .md-prose       { text-align: left; }
+.slab .md-prose p     { color: rgba(250, 250, 247, 0.78); }
+.slab .md-prose em    { color: rgba(250, 250, 247, 0.95); }
+
+/* ---------------------------------------------------------
+ * Section heading — `## LABEL` with hairline rules on both
+ * sides. Single rule, no per-section overrides.
+ * ---------------------------------------------------------*/
+.md-h2 {
+  font-size: 0.95rem;
+  font-weight: 600;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--color-ink);
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 1rem;
+  margin: 3.5rem 0 1.4rem;
+}
+@media (min-width: 768px) {
+  .md-h2 { margin: 5rem 0 1.8rem; }
+}
+.md-h2::before { display: none; }
+.md-h2::after {
+  content: "";
+  height: 1px;
+  background: var(--color-rule);
+  flex: 1;
+}
+.md-h2 .label-text {
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+.md-h2 .label-text::before {
+  content: "## ";
+  color: var(--color-accent);
+  font-weight: 700;
+  letter-spacing: 0;
+  text-transform: none;
+  font-size: 1.05rem;
+  margin-right: 0.45rem;
+}
+
+.md-h3 {
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--color-ink);
+  margin-top: 2rem;
+  margin-bottom: 0.8rem;
+}
+
+.md-title {
+  font-size: clamp(1.9rem, 4.2vw, 2.7rem);
+  font-weight: 600;
+  letter-spacing: -0.018em;
+  color: var(--color-ink);
+  margin: 0 0 1.6rem;
+  line-height: 1.05;
+  position: relative;
+  padding-bottom: 1rem;
+}
+.md-title::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 2.4rem;
+  height: 2px;
+  background: var(--color-accent);
 }
 
 /* ---------------------------------------------------------
- * Hero slab — full-bleed dark opener. Wedecom logo centered,
- * thesis presented as a spoken quote attributed to Matthias.
+ * Hero typography — sits inside .slab--hero > .md-wide.
+ * Left-aligned. Smaller H1. Hierarchy via weight + color, not scale.
  * ---------------------------------------------------------*/
-.hero-slab {
-  position: relative;
-  background: var(--color-ink);
-  color: var(--color-paper);
-  padding: 4rem 0 4.5rem;
-  text-align: center;
-}
-@media (min-width: 768px) {
-  .hero-slab { padding: 6rem 0 6.5rem; }
-}
-.hero-slab-inner {
-  max-width: 60rem;
-  margin: 0 auto;
-  padding-inline: 1.5rem;
-}
-@media (min-width: 768px) {
-  .hero-slab-inner { padding-inline: 2.5rem; }
-}
-
 .hero-thesis-h1 {
-  font-family: var(--font-mono);
-  font-weight: 700;
-  font-size: clamp(2rem, 5.2vw, 4rem);
-  line-height: 1.05;
-  letter-spacing: -0.025em;
+  font-weight: 600;
+  font-size: clamp(1.7rem, 3.6vw, 2.55rem);
+  line-height: 1.1;
+  letter-spacing: -0.02em;
   color: var(--color-paper);
-  margin: 0 auto 2.2rem;
-  max-width: 18ch;
+  margin: 0 0 1.4rem;
+  text-wrap: balance;
 }
-
+.hero-caret {
+  display: inline-block;
+  width: 0.55em;
+  height: 0.95em;
+  margin-left: 0.18em;
+  background: var(--color-accent);
+  vertical-align: -0.08em;
+  animation: hero-caret-blink 1.05s steps(2, end) infinite;
+}
+@keyframes hero-caret-blink {
+  0%, 50%   { opacity: 1; }
+  50.01%, 100% { opacity: 0; }
+}
 .hero-thesis-sub {
-  font-family: var(--font-mono);
-  font-size: clamp(1.05rem, 1.5vw, 1.25rem);
-  font-weight: 400;
-  line-height: 1.55;
-  color: rgba(250, 250, 247, 0.78);
-  max-width: 44rem;
-  margin: 0 auto 1.6rem;
-}
-
-.hero-thesis-question {
-  font-family: var(--font-mono);
-  font-size: clamp(1.05rem, 1.5vw, 1.3rem);
-  font-weight: 500;
-  font-style: italic;
-  line-height: 1.45;
-  letter-spacing: -0.005em;
-  color: var(--color-accent);
-  max-width: 44rem;
-  margin: 0 auto 3.2rem;
-}
-
-.hero-attribution {
-  font-family: var(--font-mono);
-  font-size: 0.82rem;
+  font-size: clamp(1rem, 1.35vw, 1.15rem);
   line-height: 1.6;
-  color: rgba(250, 250, 247, 0.45);
-  margin: 2.4rem 0 0;
-  letter-spacing: 0;
+  color: rgba(250, 250, 247, 0.72);
+  max-width: 56ch;
+  margin: 0 0 1.1rem;
 }
-
+.hero-thesis-question {
+  font-size: clamp(0.95rem, 1.15vw, 1.1rem);
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+  line-height: 1.4;
+  color: var(--color-accent);
+  margin: 0 0 2.2rem;
+}
 .hero-cta-line { margin: 0; }
 .hero-cta-link {
   display: inline-flex;
   align-items: baseline;
   gap: 0.55rem;
-  font-family: var(--font-mono);
   font-size: 1rem;
   font-weight: 500;
   color: var(--color-paper);
   text-decoration: none;
   border-bottom: 2px solid var(--color-accent);
   padding: 0.4rem 0 0.35rem;
-  transition: color 0.25s ease, border-color 0.25s ease;
+  transition: color 0.25s ease, border-color 0.25s ease, transform 0.12s ease;
+  will-change: transform;
 }
 .hero-cta-link::after {
   content: "→";
@@ -215,61 +313,16 @@
   border-bottom-color: var(--color-paper);
 }
 .hero-cta-link:hover::after { transform: translateX(4px); }
+.hero-cta-link:active { transform: translateY(1px); }
 
 /* ---------------------------------------------------------
- * Profile lede — magazine-style oversized first line that
- * gives the section a clear typographic hierarchy.
- * ---------------------------------------------------------*/
-/* Profile lede — quiet emphasis, not a typographic event.
-   Hero slab now carries the heavy display moment. */
-.md-lede {
-  font-family: var(--font-mono);
-  font-size: 1.05rem;
-  font-weight: 500;
-  line-height: 1.55;
-  letter-spacing: -0.005em;
-  color: var(--color-ink);
-  max-width: 50rem;
-  margin: 0 0 1.4rem;
-}
-.md-lede em {
-  font-style: italic;
-  color: var(--color-accent);
-}
-
-/* ---------------------------------------------------------
- * Hero CTA — small arrow link below the thesis quote, gives
- * a high-intent reader a one-click path to the contact block.
- * ---------------------------------------------------------*/
-.hero-cta {
-  display: inline-flex;
-  align-items: baseline;
-  gap: 0.5rem;
-  margin-top: 1.4rem;
-  font-size: 0.92rem;
-  letter-spacing: -0.005em;
-  color: var(--color-ink);
-  text-decoration: none;
-  transition: color 0.25s ease, transform 0.25s ease;
-}
-.hero-cta::before {
-  content: "→";
-  color: var(--color-accent);
-  font-weight: 400;
-}
-.hero-cta:hover { color: var(--color-accent); transform: translateX(2px); }
-
-/* ---------------------------------------------------------
- * Begin section CTA block — the page's money shot. Headline,
- * primary email link sized between body and hero, secondary
- * channel below.
+ * CTA typography — sits inside .slab > .md-wide.
  * ---------------------------------------------------------*/
 .cta-headline {
-  font-family: var(--font-mono);
   font-size: clamp(1.7rem, 3.6vw, 2.6rem);
   font-weight: 700;
   letter-spacing: -0.025em;
-  color: var(--color-ink);
+  color: var(--color-paper);
   line-height: 1.05;
   margin: 0 0 1.6rem;
 }
@@ -289,7 +342,7 @@
   display: inline-flex;
   align-items: baseline;
   gap: 0.55rem;
-  color: var(--color-ink);
+  color: var(--color-paper);
   text-decoration: none;
   padding-bottom: 0.25rem;
   border-bottom: 2px solid var(--color-accent);
@@ -302,123 +355,42 @@
 }
 .cta-primary-link:hover {
   color: var(--color-accent);
-  border-bottom-color: var(--color-ink);
+  border-bottom-color: var(--color-paper);
 }
 .cta-secondary {
   margin-top: 1.1rem;
   font-size: 0.9rem;
-  color: var(--color-ink-mute);
+  color: rgba(250, 250, 247, 0.5);
   letter-spacing: -0.005em;
 }
-
-/* The "path" line at the top of every page — small nerdy
-   tell, with `~` as the unix home symbol linking to /. */
-.md-filepath {
-  font-size: 0.82rem;
-  color: var(--color-ink-mute);
-  letter-spacing: 0.01em;
-  margin-bottom: 1.6rem;
-}
-.md-filepath .home {
-  color: var(--color-accent);
-  text-decoration: none;
-  transition: opacity 0.2s ease;
-}
-.md-filepath .home:hover { opacity: 0.7; }
-
-/* Page title — bigger, more presence, no markdown prefix */
-.md-title {
-  font-size: clamp(1.9rem, 4.2vw, 2.7rem);
-  font-weight: 600;
-  letter-spacing: -0.018em;
-  color: var(--color-ink);
-  margin-top: 0;
-  margin-bottom: 1.6rem;
-  line-height: 1.05;
-  position: relative;
-  padding-bottom: 1rem;
-}
-.md-title::after {
-  content: "";
-  position: absolute;
-  left: 0;
-  bottom: 0;
-  width: 2.4rem;
-  height: 2px;
-  background: var(--color-accent);
+.cta-secondary .ink-link {
+  color: var(--color-paper);
+  background-image: linear-gradient(var(--color-paper), var(--color-paper));
 }
 
-/* Section heading — uppercase mono, ## glyph in orange, hairline
-   rule extends to the right edge of the wide canvas. */
-.md-h2 {
-  font-size: 0.95rem;
-  font-weight: 600;
-  letter-spacing: 0.22em;
-  text-transform: uppercase;
-  color: var(--color-ink);
-  margin-top: 3.5rem;
-  margin-bottom: 1.4rem;
-  display: flex;
-  align-items: center;
-  gap: 1rem;
-  padding-top: 0;
-  border-top: 0;
-}
-@media (min-width: 768px) {
-  .md-h2 { margin-top: 5rem; margin-bottom: 1.8rem; }
-}
-.md-h2::before {
-  content: "##";
-  color: var(--color-accent);
-  font-weight: 700;
-  letter-spacing: 0;
-  text-transform: none;
-  font-size: 1.05rem;
-  flex-shrink: 0;
-}
-.md-h2 .label-text {
-  white-space: nowrap;
-  flex-shrink: 0;
-}
-.md-h2::after {
-  content: "";
-  flex: 1;
-  height: 1px;
-  background: var(--color-rule);
-}
-
-.md-h3 {
-  font-size: 1rem;
-  font-weight: 600;
-  color: var(--color-ink);
-  margin-top: 2rem;
-  margin-bottom: 0.8rem;
-}
-
-/* Body prose */
+/* ---------------------------------------------------------
+ * Body content — prose, lists, cards, status panel.
+ * ---------------------------------------------------------*/
 .md-prose {
   font-size: 0.95rem;
   line-height: 1.7;
   color: var(--color-ink);
   letter-spacing: -0.005em;
+  text-align: left;
 }
 .md-prose p + p { margin-top: 1rem; }
-.md-prose em {
-  font-style: italic;
-  color: var(--color-ink-soft);
-}
+.md-prose em    { font-style: italic; color: var(--color-ink-soft); }
 .md-prose strong { font-weight: 600; }
 
-/* The opening thesis paragraph — pull-quote scale */
 .md-thesis {
   font-size: clamp(1.05rem, 1.85vw, 1.32rem);
   line-height: 1.55;
   color: var(--color-ink);
   letter-spacing: -0.008em;
   margin-bottom: 0.5rem;
-  position: relative;
   padding-left: 1.2rem;
   border-left: 2px solid var(--color-accent);
+  text-align: left;
 }
 .md-thesis em {
   font-style: italic;
@@ -428,53 +400,15 @@
   border-radius: 2px;
 }
 
-/* Status panel — key:value dl, the front-matter / `whoami` block */
-.md-status {
-  margin: 2rem 0 0.5rem;
-  padding: 1rem 1.1rem;
-  border: 1px solid var(--color-rule);
-  background-color: var(--color-paper-deep);
-  border-radius: 4px;
-  font-size: 0.86rem;
-  line-height: 1.85;
-}
-.md-status dl {
-  display: grid;
-  grid-template-columns: max-content 1fr;
-  column-gap: 1.5rem;
-  row-gap: 0;
-  margin: 0;
-}
-.md-status dt {
-  color: var(--color-ink-mute);
-  font-weight: 400;
-  letter-spacing: 0.02em;
-}
-.md-status dd {
-  color: var(--color-ink);
-  margin: 0;
-}
-.md-status .dot {
-  display: inline-block;
-  width: 0.45rem;
-  height: 0.45rem;
-  border-radius: 9999px;
-  background: var(--color-accent);
-  margin-right: 0.5rem;
-  vertical-align: 0.05em;
-}
-
-/* Credo — manifesto rendered like a code listing.
-   Paper-deeper background, line numbers in mute, italic elaborations
-   styled like code comments. Hairline border + corner radius. */
+/* Numbered manifesto list */
 .md-credo {
   list-style: none;
-  margin: 1.5rem 0 0;
+  margin-block: 1.5rem 0;
   padding: 1.2rem 1.3rem 1.2rem 1.1rem;
   background-color: var(--color-paper-deep);
   border: 1px solid var(--color-rule);
   border-radius: 4px;
-  position: relative;
+  text-align: left;
 }
 .md-credo li {
   display: grid;
@@ -484,18 +418,16 @@
   border-bottom: 1px dashed var(--color-rule-soft);
   align-items: baseline;
 }
-.md-credo li:last-child { border-bottom: 0; padding-bottom: 0.2rem; }
+.md-credo li:last-child  { border-bottom: 0; padding-bottom: 0.2rem; }
 .md-credo li:first-child { padding-top: 0.2rem; }
 .md-credo .n {
   color: var(--color-ink-mute);
   font-variant-numeric: tabular-nums;
-  font-weight: 400;
   text-align: right;
   padding-right: 0.6rem;
   border-right: 1px solid var(--color-rule-soft);
 }
 .md-credo .line {
-  font-family: var(--font-mono);
   font-size: 1rem;
   font-weight: 600;
   color: var(--color-ink);
@@ -508,71 +440,71 @@
   color: var(--color-ink-soft);
   font-size: 0.86rem;
   margin-top: 0.18rem;
-  letter-spacing: 0;
 }
 
-/* Offer cards — brutalist editorial. Shared grid borders, no rounding,
-   big numerals as the visual hook, hover slides an orange rule along the
-   bottom. */
+/* Editorial rows — big numeral in the left gutter, content stacked. */
 .md-shapes {
   margin-top: 1.8rem;
-  display: grid;
-  grid-template-columns: 1fr;
-  gap: 0;
+  display: flex;
+  flex-direction: column;
   border-top: 1px solid var(--color-rule);
-}
-@media (min-width: 720px) {
-  .md-shapes { grid-template-columns: repeat(3, 1fr); }
+  text-align: left;
 }
 .md-shape {
   position: relative;
-  padding: 2.2rem 1.6rem 2.4rem;
+  display: grid;
+  grid-template-columns: 3.4rem 1fr;
+  column-gap: 1.4rem;
+  align-items: baseline;
+  padding: 1.8rem 0 2rem;
   border-bottom: 1px solid var(--color-rule);
-  background: transparent;
   transition: background 0.3s ease;
-  overflow: hidden;
 }
 @media (min-width: 720px) {
   .md-shape {
-    border-right: 1px solid var(--color-rule);
+    grid-template-columns: 5rem 1fr;
+    column-gap: 2rem;
   }
-  .md-shape:last-child { border-right: 0; }
 }
 .md-shape::after {
   content: "";
   position: absolute;
   left: 0;
-  bottom: 0;
-  height: 2px;
+  bottom: -1px;
+  height: 1px;
   width: 0;
   background: var(--color-accent);
   transition: width 0.45s ease;
 }
-.md-shape:hover { background: var(--color-paper-deep); }
 .md-shape:hover::after { width: 100%; }
 .md-shape .shape-n {
-  font-size: 1.7rem;
+  font-size: clamp(2.4rem, 4vw, 3.2rem);
   font-weight: 600;
   color: var(--color-accent);
-  letter-spacing: -0.02em;
-  line-height: 1;
+  letter-spacing: -0.04em;
+  line-height: 0.9;
   font-variant-numeric: tabular-nums;
+  align-self: start;
 }
 .md-shape .shape-key {
-  margin-top: 0.85rem;
-  font-size: 1.05rem;
+  font-size: clamp(1.05rem, 1.4vw, 1.2rem);
   font-weight: 600;
   color: var(--color-ink);
-  letter-spacing: -0.005em;
+  letter-spacing: -0.01em;
+  line-height: 1.3;
+  align-self: start;
+  max-width: 42ch;
 }
 .md-shape .shape-text {
-  margin-top: 0.65rem;
+  grid-column: 2;
+  margin-top: 0.55rem;
   font-size: 0.9rem;
   line-height: 1.6;
   color: var(--color-ink-soft);
+  max-width: 60ch;
 }
 
-/* "→ link" rows — used at the bottom of /begin and /contact */
+/* Inline arrow link rows */
 .md-arrow {
   font-size: 0.95rem;
   color: var(--color-ink);
@@ -583,66 +515,45 @@
 .md-arrow::before {
   content: "→";
   color: var(--color-accent);
-  font-weight: 400;
 }
 .md-arrow + .md-arrow { margin-top: 0.4rem; }
 
-/* Reveal-on-scroll — the only page motion. Single fade. */
+/* Status panel — key:value front-matter */
+.md-status {
+  margin-block: 2rem 0.5rem;
+  padding: 1rem 1.1rem;
+  border: 1px solid var(--color-rule);
+  background-color: var(--color-paper-deep);
+  border-radius: 4px;
+  font-size: 0.86rem;
+  line-height: 1.85;
+  text-align: left;
+}
+.md-status dl {
+  display: grid;
+  grid-template-columns: max-content 1fr;
+  column-gap: 1.5rem;
+  row-gap: 0;
+  margin: 0;
+}
+.md-status dt {
+  color: var(--color-ink-mute);
+  letter-spacing: 0.02em;
+}
+.md-status dd { color: var(--color-ink); margin: 0; }
+.md-status .dot {
+  display: inline-block;
+  width: 0.45rem;
+  height: 0.45rem;
+  border-radius: 9999px;
+  background: var(--color-accent);
+  margin-right: 0.5rem;
+  vertical-align: 0.05em;
+}
+
+/* Reveal-on-scroll */
 .reveal {
   opacity: 0;
   transition: opacity 0.6s ease;
 }
 .reveal.is-visible { opacity: 1; }
-
-/* ---------------------------------------------------------
- * CTA block — full-bleed dark section. The page's ending
- * punctuation mark: ink-on-paper inverted to paper-on-ink.
- * ---------------------------------------------------------*/
-.cta-block {
-  position: relative;
-  margin-top: 5rem;
-  background: var(--color-ink);
-  color: var(--color-paper);
-  padding: 4rem 0 5rem;
-  /* Full-bleed escape from any centered parent */
-  margin-left: calc(50% - 50vw);
-  margin-right: calc(50% - 50vw);
-  width: 100vw;
-}
-@media (min-width: 768px) {
-  .cta-block { margin-top: 7rem; padding: 6rem 0 7.5rem; }
-}
-.cta-block-inner {
-  max-width: var(--container-wide);
-  margin: 0 auto;
-  padding-inline: 1.5rem;
-}
-@media (min-width: 768px) {
-  .cta-block-inner { padding-inline: 2.5rem; }
-}
-@media (min-width: 1200px) {
-  .cta-block-inner { padding-inline: 3rem; }
-}
-.cta-block .md-h2 {
-  color: var(--color-paper);
-  margin-top: 0;
-  margin-bottom: 2.4rem;
-}
-.cta-block .md-h2::before { color: var(--color-accent); }
-.cta-block .md-h2::after { background: rgba(250, 250, 247, 0.18); }
-.cta-block .cta-headline { color: var(--color-paper); }
-.cta-block .md-prose p { color: rgba(250, 250, 247, 0.78); }
-.cta-block .cta-primary-link {
-  color: var(--color-paper);
-  border-bottom-color: var(--color-accent);
-}
-.cta-block .cta-primary-link::before { color: var(--color-accent); }
-.cta-block .cta-primary-link:hover {
-  color: var(--color-accent);
-  border-bottom-color: var(--color-paper);
-}
-.cta-block .cta-secondary { color: rgba(250, 250, 247, 0.5); }
-.cta-block .cta-secondary .ink-link {
-  color: var(--color-paper);
-  background-image: linear-gradient(var(--color-paper), var(--color-paper));
-}
