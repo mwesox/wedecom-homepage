@@ -1,0 +1,27 @@
+---
+interface Row {
+  key: string;
+  value: string;
+  dot?: boolean;
+}
+
+interface Props {
+  rows: Row[];
+}
+
+const { rows } = Astro.props;
+---
+
+<div class="md-status">
+  <dl>
+    {rows.map((r) => (
+      <>
+        <dt>{r.key}</dt>
+        <dd>
+          {r.dot && <span class="dot" aria-hidden="true"></span>}
+          <span set:html={r.value} />
+        </dd>
+      </>
+    ))}
+  </dl>
+</div>

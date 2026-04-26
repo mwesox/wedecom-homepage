@@ -1,0 +1,146 @@
+---
+import Base from "~/layouts/Base.astro";
+import Section from "~/components/Section.astro";
+
+const stance = [
+  {
+    line: "AI is not an autocomplete upgrade.",
+    elab: "It changes how product decisions are made, how systems are designed, and how work moves from idea to production.",
+  },
+  {
+    line: "Speed exposes weak systems.",
+    elab: "AI makes strong teams faster. It also makes unclear product thinking and fragile architecture fail faster.",
+  },
+  {
+    line: "The delivery loop has to change.",
+    elab: "The advantage is not one tool. It is a team that can decide, build, review, and release with less friction.",
+  },
+];
+---
+
+<Base
+  title="Wedecom Consulting GmbH | AI-Accelerated Software Delivery"
+  description="Wedecom helps founders, scale-ups, and product teams adapt their software delivery model for AI: sharper product decisions, faster implementation, shorter feedback loops, and maintainable systems. Founder-led by Matthias Wesolowski, near Munich."
+>
+  <section id="top" class="hero-slab reveal">
+    <div class="hero-slab-inner">
+      <h1 class="hero-thesis-h1">
+        AI is the biggest shift<br />in software since the internet.
+      </h1>
+      <p class="hero-thesis-sub">
+        It is not just a tool. It changes how software gets built.
+      </p>
+      <p class="hero-thesis-question">
+        Wedecom helps teams adapt before speed turns into noise.
+      </p>
+      <p class="hero-cta-line">
+        <a href="#begin" class="hero-cta-link">Let's talk</a>
+      </p>
+    </div>
+  </section>
+
+  <article class="md-wide pt-12 pb-20 md:pt-16 md:pb-24">
+
+    <Section label="How Wedecom helps" id="offer">
+      <div class="md-prose md-col">
+        <p>
+          Most companies start with tools. Better prompts. Faster tickets.
+          More code. Useful, but not enough.
+        </p>
+        <p>
+          Wedecom works inside product and engineering teams to redesign the
+          delivery loop around AI: sharper product decisions, architecture that
+          can handle speed, assisted coding and testing, faster reviews, and safer
+          releases.
+        </p>
+        <p>
+          The outcome is simple: more product shipped, fewer handoffs, and a
+          delivery rhythm your team can keep.
+        </p>
+      </div>
+
+      <div class="md-shapes">
+        <div class="md-shape">
+          <p class="shape-n">01</p>
+          <p class="shape-key">Shorter path to shipped product</p>
+          <p class="shape-text">
+            Move from product intent to production with tighter decisions and fewer handoffs.
+          </p>
+        </div>
+        <div class="md-shape">
+          <p class="shape-n">02</p>
+          <p class="shape-key">AI across delivery</p>
+          <p class="shape-text">
+            Apply AI to coding, tests, review, docs, debugging, and release work without lowering discipline.
+          </p>
+        </div>
+        <div class="md-shape">
+          <p class="shape-n">03</p>
+          <p class="shape-key">Senior delivery ownership</p>
+          <p class="shape-text">
+            Keep one experienced technical partner close to product, architecture, implementation, and rollout.
+          </p>
+        </div>
+      </div>
+
+      <div class="md-prose md-col mt-10">
+        <p>
+          <em>AI is the tool. Delivery is the product. Judgement keeps both useful.</em>
+        </p>
+      </div>
+    </Section>
+
+    <Section label="Point of view" id="stance">
+      <ol class="md-credo md-col">
+        {stance.map((c, i) => (
+          <li>
+            <span class="n" aria-hidden="true">{String(i + 1).padStart(2, "0")}.</span>
+            <span class="line">{c.line}</span>
+            <span class="elab">{c.elab}</span>
+          </li>
+        ))}
+      </ol>
+    </Section>
+
+    <Section label="Founder-led" id="profile">
+      <div class="md-prose md-col">
+        <p>
+          Wedecom is founder-led by <strong>Matthias Wesolowski</strong>,
+          a software engineer based near Munich with twenty years building
+          production software across banking, finance, insurance, and medtech.
+        </p>
+        <p>
+          The value is technical judgement at product speed: what to build,
+          how to structure it, where AI helps, where it creates risk, and how
+          to ship without losing engineering discipline.
+        </p>
+        <p>
+          Matthias stays close to the work. Wedecom gives teams a senior
+          technical partner inside the delivery flow, not another layer outside it.
+        </p>
+      </div>
+    </Section>
+
+  </article>
+
+  <section id="begin" class="cta-block reveal">
+    <div class="cta-block-inner">
+      <h2 class="md-h2"><span class="label-text">Next step</span></h2>
+      <p class="cta-headline">Talk to <em>Matthias</em>.</p>
+      <div class="md-prose md-col">
+        <p>
+          Bring the product you need to ship, the bottleneck slowing the team
+          down, or the AI adoption question that keeps coming back. Matthias
+          will tell you what he would change first.
+        </p>
+      </div>
+      <p class="cta-primary">
+        <a href="mailto:info@wedecom-consulting.de" class="cta-primary-link">info@wedecom-consulting.de</a>
+      </p>
+      <p class="cta-secondary">
+        or via
+        <a href="https://www.linkedin.com/in/matthias-wesolowski-320b033b/" target="_blank" rel="noopener noreferrer" class="ink-link">LinkedIn ↗</a>
+      </p>
+    </div>
+  </section>
+</Base>

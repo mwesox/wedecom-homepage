@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Fractional CTO Services | Wedecom Consulting GmbH</title>
+  <meta name="description" content="Wedecom Consulting GmbH offers Fractional CTO services to help businesses maximize business value through lean technology and strategic leadership.">
+  <meta name="keywords" content="Fractional CTO, Technical Leadership, Lean Technology, Business Growth, Scalable Solutions">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    html, body {
+      height: 100%;
+      margin: 0;
+    }
+    body {
+      overflow: hidden;
+    }
+    iframe {
+      width: 100%;
+      height: calc(100vh - 100px); /* Adjust for navbar height */
+      border: none;
+    }
+    header {
+      background-color: #ffffff; /* Ensures the logo has a white background */
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Adds subtle shadow for elevation */
+    }
+
+    /* Custom CSS for navbar link animations */
+    .nav-link {
+      position: relative;
+      overflow: hidden;
+    }
+    .nav-link::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 50%;
+      width: 0;
+      height: 2px;
+      background-color: #f26922;
+      transition: all 0.3s ease-in-out;
+    }
+    .nav-link:hover::after {
+      left: 0;
+      width: 100%;
+    }
+  </style>
+  <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "ProfessionalService",
+      "name": "Wedecom Consulting GmbH",
+      "url": "https://wedecom-consulting.de",
+      "logo": "https://wedecom-consulting.de/logo.png",
+      "description": "Fractional CTO services to maximize business value through lean technology.",
+      "address": {
+        "@type": "PostalAddress",
+        "streetAddress": "Estostr. 13A",
+        "addressLocality": "Olching",
+        "postalCode": "82140",
+        "addressCountry": "DE"
+      },
+      "contactPoint": {
+        "@type": "ContactPoint",
+        "telephone": "+49 89 215 4 22 44",
+        "contactType": "Customer Support"
+      }
+    }
+    </script>
+</head>
+<body>
+  <!-- Header -->
+  <header class="shadow bg-white">
+    <div class="container mx-auto flex items-center justify-between px-6 py-8">
+      <!-- Logo -->
+      <div class="flex items-center">
+        <div class="bg-white p-2 rounded-full shadow-lg">
+          <img src="logo.png" alt="Wedecom Consulting GmbH" class="h-16">
+        </div>
+      </div>
+      <!-- Navbar -->
+      <nav class="hidden md:flex space-x-12 text-lg">
+        <a href="home.html" target="content-frame" class="nav-link text-[#2d3d51] font-semibold hover:text-[#f26922]">
+          Home
+        </a>
+        <a href="contact.html" target="content-frame" class="nav-link text-[#2d3d51] font-semibold hover:text-[#f26922]">
+          Contact Us
+        </a>
+        <a href="impressum.html" target="content-frame" class="nav-link text-[#2d3d51] font-semibold hover:text-[#f26922]">
+          Impressum
+        </a>
+      </nav>
+      <!-- Mobile Menu Button -->
+      <button class="md:hidden text-[#2d3d51] focus:outline-none">
+        <svg class="h-8 w-8" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h16" />
+        </svg>
+      </button>
+    </div>
+  </header>
+
+  <!-- Main Content -->
+  <main>
+    <iframe src="home.html" name="content-frame"></iframe>
+  </main>
+
+  <!-- Footer -->
+  <footer class="bg-[#f26922] text-white py-4">
+    <div class="container mx-auto text-center">
+      <p class="text-sm">&copy; 2024 Wedecom Consulting GmbH. Built for Startups with ❤️.</p>
+    </div>
+  </footer>
+</body>
+</html>

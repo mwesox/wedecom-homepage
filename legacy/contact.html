@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <title>Contact Us - Wedecom Consulting</title>
+  <style>
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .fade-in {
+      animation: fadeIn 1s ease-out;
+    }
+  </style>
+</head>
+<body class="bg-gray-100">
+  <div class="container mx-auto px-6 py-20 fade-in">
+    <!-- Contact Section -->
+    <section class="text-center">
+      <h1 class="text-5xl font-extrabold text-[#2d3d51]">Let's Connect</h1>
+      <p class="mt-6 text-lg text-gray-700 sm:text-xl">
+        Reach out to us directly via LinkedIn to discuss how we can collaborate.
+      </p>
+      <div class="mt-8">
+        <a href="https://www.linkedin.com/in/matthias-wesolowski-320b033b/" 
+           target="_blank" 
+           class="inline-flex items-center space-x-2 rounded-lg bg-[#f26922] px-6 py-3 text-white font-semibold hover:bg-[#d9581d] transition duration-300 ease-in-out">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="currentColor" viewBox="0 0 24 24">
+            <path d="M20.447 20.452H17.21v-4.867c0-1.162-.022-2.662-1.622-2.662-1.625 0-1.874 1.268-1.874 2.582v4.947H10.475v-9.989h2.955v1.364h.042c.411-.776 1.416-1.596 2.916-1.596 3.118 0 3.692 2.053 3.692 4.721v5.5h-.003zm-14.19-.002H3.25v-9.989h3.007v9.989zM4.776 8.808c-.967 0-1.75-.787-1.75-1.754 0-.965.783-1.75 1.75-1.75.965 0 1.75.785 1.75 1.75 0 .967-.785 1.754-1.75 1.754zm16.972 11.644H2.252C1.56 20.452 1 19.894 1 19.201V4.8c0-.693.56-1.252 1.252-1.252h19.494C22.438 3.548 23 4.107 23 4.8v14.401c0 .692-.562 1.25-1.252 1.25z"/>
+          </svg>
+          <span>Visit LinkedIn Profile</span>
+        </a>
+      </div>
+    </section>
+
+    <!-- Contact Info Section -->
+    <section class="mt-20">
+      <h2 class="text-3xl font-bold text-[#2d3d51] text-center">Contact Information</h2>
+      <div class="mt-12 grid gap-8 sm:grid-cols-2 lg:grid-cols-3 text-center">
+        <div class="bg-white shadow-lg rounded-lg p-6">
+          <h3 class="text-xl font-bold text-[#2d3d51]">Email</h3>
+          <p class="mt-4 text-gray-600">
+            <a href="mailto:info@wedecom-consulting.de" class="text-[#f26922] hover:underline">info@wedecom-consulting.de</a>
+          </p>
+        </div>
+        <div class="bg-white shadow-lg rounded-lg p-6">
+          <h3 class="text-xl font-bold text-[#2d3d51]">Phone</h3>
+          <p class="mt-4 text-gray-600">+49 89 215 4 22 44</p>
+        </div>
+        <div class="bg-white shadow-lg rounded-lg p-6">
+          <h3 class="text-xl font-bold text-[#2d3d51]">Location</h3>
+          <p class="mt-4 text-gray-600">Estostr. 13A<br>82140 Olching, Germany</p>
+        </div>
+      </div>
+    </section>
+  </div>
+</body>
+</html>
