@@ -1,0 +1,648 @@
+/* ---------------------------------------------------------
+ * Fonts (must precede @import "tailwindcss")
+ * JetBrains Mono — single typeface, used everywhere.
+ * The all-mono commitment is itself the design.
+ * ---------------------------------------------------------*/
+@import url("https://fonts.googleapis.com/css2?family=JetBrains+Mono:ital,wght@0,400;0,500;0,600;0,700;0,800;1,400&display=swap");
+
+@import "tailwindcss";
+
+/* ---------------------------------------------------------
+ * Theme tokens — three colours, light, warm.
+ * ---------------------------------------------------------*/
+@theme {
+  --color-paper:       #FAFAF7;
+  --color-paper-deep:  #F2EFE9;   /* status panel background, code backgrounds */
+  --color-paper-edge:  #ECE8DF;   /* hairline rule */
+  --color-ink:         #1F2937;
+  --color-ink-soft:    #4B5563;
+  --color-ink-mute:    #6B7280;
+  --color-rule:        rgb(31 41 55 / 0.10);
+  --color-rule-soft:   rgb(31 41 55 / 0.06);
+  --color-accent:      #F26922;   /* logo orange — reserved, not decorative */
+  --color-accent-soft: rgb(242 105 34 / 0.10);
+
+  --font-mono:    "JetBrains Mono", ui-monospace, "SFMono-Regular", "Menlo", monospace;
+  --font-sans:    "JetBrains Mono", ui-monospace, "SFMono-Regular", "Menlo", monospace;
+  --font-display: "JetBrains Mono", ui-monospace, "SFMono-Regular", "Menlo", monospace;
+
+  --container-doc:  44rem;  /* ~720px reading column */
+  --container-wide: 78rem;  /* ~1248px editorial canvas */
+}
+
+/* ---------------------------------------------------------
+ * Base
+ * ---------------------------------------------------------*/
+@layer base {
+  html {
+    font-family: var(--font-mono);
+    font-feature-settings: "calt", "ss02";
+    background-color: var(--color-paper);
+    color: var(--color-ink);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+    scroll-behavior: smooth;
+    font-size: 15px;
+  }
+
+  body {
+    background-color: var(--color-paper);
+    background-image:
+      radial-gradient(rgb(31 41 55 / 0.045) 1px, transparent 1px);
+    background-size: 22px 22px;
+    background-position: 0 0;
+    min-height: 100vh;
+  }
+
+  ::selection {
+    background-color: var(--color-ink);
+    color: var(--color-paper);
+  }
+
+  h1, h2, h3, h4 {
+    font-family: var(--font-mono);
+    font-weight: 500;
+    color: var(--color-ink);
+    letter-spacing: -0.005em;
+  }
+
+  /* Inline link — quiet, with orange underline grown on hover */
+  .ink-link {
+    color: var(--color-ink);
+    text-decoration: none;
+    background-image: linear-gradient(var(--color-accent), var(--color-accent));
+    background-repeat: no-repeat;
+    background-position: 0 100%;
+    background-size: 0% 1px;
+    transition: background-size 0.3s ease;
+    padding-bottom: 1px;
+  }
+  .ink-link:hover { background-size: 100% 1px; }
+
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+      scroll-behavior: auto !important;
+    }
+  }
+}
+
+/* ---------------------------------------------------------
+ * README-document utilities
+ *
+ * Every page is a centered column ≤44rem wide. Section
+ * headings carry an orange `##` glyph that's part of the
+ * mono character flow.
+ * ---------------------------------------------------------*/
+.md {
+  width: 100%;
+  max-width: var(--container-doc);
+  margin-inline: auto;
+  padding-inline: 1.5rem;
+}
+@media (min-width: 768px) {
+  .md { padding-inline: 2rem; }
+}
+
+/* Wider editorial canvas — for the homepage hero, marquee, and offer grid.
+   Inner prose can still cap itself at the narrower reading column via .md-col. */
+.md-wide {
+  width: 100%;
+  max-width: var(--container-wide);
+  margin-inline: auto;
+  padding-inline: 1.5rem;
+}
+@media (min-width: 768px) {
+  .md-wide { padding-inline: 2.5rem; }
+}
+@media (min-width: 1200px) {
+  .md-wide { padding-inline: 3rem; }
+}
+.md-col {
+  max-width: var(--container-doc);
+}
+
+/* ---------------------------------------------------------
+ * Hero slab — full-bleed dark opener. Wedecom logo centered,
+ * thesis presented as a spoken quote attributed to Matthias.
+ * ---------------------------------------------------------*/
+.hero-slab {
+  position: relative;
+  background: var(--color-ink);
+  color: var(--color-paper);
+  padding: 4rem 0 4.5rem;
+  text-align: center;
+}
+@media (min-width: 768px) {
+  .hero-slab { padding: 6rem 0 6.5rem; }
+}
+.hero-slab-inner {
+  max-width: 60rem;
+  margin: 0 auto;
+  padding-inline: 1.5rem;
+}
+@media (min-width: 768px) {
+  .hero-slab-inner { padding-inline: 2.5rem; }
+}
+
+.hero-thesis-h1 {
+  font-family: var(--font-mono);
+  font-weight: 700;
+  font-size: clamp(2rem, 5.2vw, 4rem);
+  line-height: 1.05;
+  letter-spacing: -0.025em;
+  color: var(--color-paper);
+  margin: 0 auto 2.2rem;
+  max-width: 18ch;
+}
+
+.hero-thesis-sub {
+  font-family: var(--font-mono);
+  font-size: clamp(1.05rem, 1.5vw, 1.25rem);
+  font-weight: 400;
+  line-height: 1.55;
+  color: rgba(250, 250, 247, 0.78);
+  max-width: 44rem;
+  margin: 0 auto 1.6rem;
+}
+
+.hero-thesis-question {
+  font-family: var(--font-mono);
+  font-size: clamp(1.05rem, 1.5vw, 1.3rem);
+  font-weight: 500;
+  font-style: italic;
+  line-height: 1.45;
+  letter-spacing: -0.005em;
+  color: var(--color-accent);
+  max-width: 44rem;
+  margin: 0 auto 3.2rem;
+}
+
+.hero-attribution {
+  font-family: var(--font-mono);
+  font-size: 0.82rem;
+  line-height: 1.6;
+  color: rgba(250, 250, 247, 0.45);
+  margin: 2.4rem 0 0;
+  letter-spacing: 0;
+}
+
+.hero-cta-line { margin: 0; }
+.hero-cta-link {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 0.55rem;
+  font-family: var(--font-mono);
+  font-size: 1rem;
+  font-weight: 500;
+  color: var(--color-paper);
+  text-decoration: none;
+  border-bottom: 2px solid var(--color-accent);
+  padding: 0.4rem 0 0.35rem;
+  transition: color 0.25s ease, border-color 0.25s ease;
+}
+.hero-cta-link::after {
+  content: "→";
+  color: var(--color-accent);
+  transition: transform 0.25s ease;
+  display: inline-block;
+}
+.hero-cta-link:hover {
+  color: var(--color-accent);
+  border-bottom-color: var(--color-paper);
+}
+.hero-cta-link:hover::after { transform: translateX(4px); }
+
+/* ---------------------------------------------------------
+ * Profile lede — magazine-style oversized first line that
+ * gives the section a clear typographic hierarchy.
+ * ---------------------------------------------------------*/
+/* Profile lede — quiet emphasis, not a typographic event.
+   Hero slab now carries the heavy display moment. */
+.md-lede {
+  font-family: var(--font-mono);
+  font-size: 1.05rem;
+  font-weight: 500;
+  line-height: 1.55;
+  letter-spacing: -0.005em;
+  color: var(--color-ink);
+  max-width: 50rem;
+  margin: 0 0 1.4rem;
+}
+.md-lede em {
+  font-style: italic;
+  color: var(--color-accent);
+}
+
+/* ---------------------------------------------------------
+ * Hero CTA — small arrow link below the thesis quote, gives
+ * a high-intent reader a one-click path to the contact block.
+ * ---------------------------------------------------------*/
+.hero-cta {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 0.5rem;
+  margin-top: 1.4rem;
+  font-size: 0.92rem;
+  letter-spacing: -0.005em;
+  color: var(--color-ink);
+  text-decoration: none;
+  transition: color 0.25s ease, transform 0.25s ease;
+}
+.hero-cta::before {
+  content: "→";
+  color: var(--color-accent);
+  font-weight: 400;
+}
+.hero-cta:hover { color: var(--color-accent); transform: translateX(2px); }
+
+/* ---------------------------------------------------------
+ * Begin section CTA block — the page's money shot. Headline,
+ * primary email link sized between body and hero, secondary
+ * channel below.
+ * ---------------------------------------------------------*/
+.cta-headline {
+  font-family: var(--font-mono);
+  font-size: clamp(1.7rem, 3.6vw, 2.6rem);
+  font-weight: 700;
+  letter-spacing: -0.025em;
+  color: var(--color-ink);
+  line-height: 1.05;
+  margin: 0 0 1.6rem;
+}
+.cta-headline em {
+  font-style: italic;
+  color: var(--color-accent);
+  font-weight: 700;
+}
+.cta-primary {
+  margin: 1.8rem 0 0;
+  font-size: clamp(1.25rem, 2.5vw, 1.85rem);
+  font-weight: 500;
+  letter-spacing: -0.015em;
+  line-height: 1.2;
+}
+.cta-primary-link {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 0.55rem;
+  color: var(--color-ink);
+  text-decoration: none;
+  padding-bottom: 0.25rem;
+  border-bottom: 2px solid var(--color-accent);
+  transition: color 0.25s ease, border-color 0.25s ease;
+}
+.cta-primary-link::before {
+  content: "→";
+  color: var(--color-accent);
+  font-weight: 400;
+}
+.cta-primary-link:hover {
+  color: var(--color-accent);
+  border-bottom-color: var(--color-ink);
+}
+.cta-secondary {
+  margin-top: 1.1rem;
+  font-size: 0.9rem;
+  color: var(--color-ink-mute);
+  letter-spacing: -0.005em;
+}
+
+/* The "path" line at the top of every page — small nerdy
+   tell, with `~` as the unix home symbol linking to /. */
+.md-filepath {
+  font-size: 0.82rem;
+  color: var(--color-ink-mute);
+  letter-spacing: 0.01em;
+  margin-bottom: 1.6rem;
+}
+.md-filepath .home {
+  color: var(--color-accent);
+  text-decoration: none;
+  transition: opacity 0.2s ease;
+}
+.md-filepath .home:hover { opacity: 0.7; }
+
+/* Page title — bigger, more presence, no markdown prefix */
+.md-title {
+  font-size: clamp(1.9rem, 4.2vw, 2.7rem);
+  font-weight: 600;
+  letter-spacing: -0.018em;
+  color: var(--color-ink);
+  margin-top: 0;
+  margin-bottom: 1.6rem;
+  line-height: 1.05;
+  position: relative;
+  padding-bottom: 1rem;
+}
+.md-title::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 2.4rem;
+  height: 2px;
+  background: var(--color-accent);
+}
+
+/* Section heading — uppercase mono, ## glyph in orange, hairline
+   rule extends to the right edge of the wide canvas. */
+.md-h2 {
+  font-size: 0.95rem;
+  font-weight: 600;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--color-ink);
+  margin-top: 3.5rem;
+  margin-bottom: 1.4rem;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding-top: 0;
+  border-top: 0;
+}
+@media (min-width: 768px) {
+  .md-h2 { margin-top: 5rem; margin-bottom: 1.8rem; }
+}
+.md-h2::before {
+  content: "##";
+  color: var(--color-accent);
+  font-weight: 700;
+  letter-spacing: 0;
+  text-transform: none;
+  font-size: 1.05rem;
+  flex-shrink: 0;
+}
+.md-h2 .label-text {
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+.md-h2::after {
+  content: "";
+  flex: 1;
+  height: 1px;
+  background: var(--color-rule);
+}
+
+.md-h3 {
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--color-ink);
+  margin-top: 2rem;
+  margin-bottom: 0.8rem;
+}
+
+/* Body prose */
+.md-prose {
+  font-size: 0.95rem;
+  line-height: 1.7;
+  color: var(--color-ink);
+  letter-spacing: -0.005em;
+}
+.md-prose p + p { margin-top: 1rem; }
+.md-prose em {
+  font-style: italic;
+  color: var(--color-ink-soft);
+}
+.md-prose strong { font-weight: 600; }
+
+/* The opening thesis paragraph — pull-quote scale */
+.md-thesis {
+  font-size: clamp(1.05rem, 1.85vw, 1.32rem);
+  line-height: 1.55;
+  color: var(--color-ink);
+  letter-spacing: -0.008em;
+  margin-bottom: 0.5rem;
+  position: relative;
+  padding-left: 1.2rem;
+  border-left: 2px solid var(--color-accent);
+}
+.md-thesis em {
+  font-style: italic;
+  color: var(--color-ink);
+  background: var(--color-accent-soft);
+  padding: 0 0.18em;
+  border-radius: 2px;
+}
+
+/* Status panel — key:value dl, the front-matter / `whoami` block */
+.md-status {
+  margin: 2rem 0 0.5rem;
+  padding: 1rem 1.1rem;
+  border: 1px solid var(--color-rule);
+  background-color: var(--color-paper-deep);
+  border-radius: 4px;
+  font-size: 0.86rem;
+  line-height: 1.85;
+}
+.md-status dl {
+  display: grid;
+  grid-template-columns: max-content 1fr;
+  column-gap: 1.5rem;
+  row-gap: 0;
+  margin: 0;
+}
+.md-status dt {
+  color: var(--color-ink-mute);
+  font-weight: 400;
+  letter-spacing: 0.02em;
+}
+.md-status dd {
+  color: var(--color-ink);
+  margin: 0;
+}
+.md-status .dot {
+  display: inline-block;
+  width: 0.45rem;
+  height: 0.45rem;
+  border-radius: 9999px;
+  background: var(--color-accent);
+  margin-right: 0.5rem;
+  vertical-align: 0.05em;
+}
+
+/* Credo — manifesto rendered like a code listing.
+   Paper-deeper background, line numbers in mute, italic elaborations
+   styled like code comments. Hairline border + corner radius. */
+.md-credo {
+  list-style: none;
+  margin: 1.5rem 0 0;
+  padding: 1.2rem 1.3rem 1.2rem 1.1rem;
+  background-color: var(--color-paper-deep);
+  border: 1px solid var(--color-rule);
+  border-radius: 4px;
+  position: relative;
+}
+.md-credo li {
+  display: grid;
+  grid-template-columns: 2.6rem 1fr;
+  column-gap: 0.6rem;
+  padding: 0.6rem 0;
+  border-bottom: 1px dashed var(--color-rule-soft);
+  align-items: baseline;
+}
+.md-credo li:last-child { border-bottom: 0; padding-bottom: 0.2rem; }
+.md-credo li:first-child { padding-top: 0.2rem; }
+.md-credo .n {
+  color: var(--color-ink-mute);
+  font-variant-numeric: tabular-nums;
+  font-weight: 400;
+  text-align: right;
+  padding-right: 0.6rem;
+  border-right: 1px solid var(--color-rule-soft);
+}
+.md-credo .line {
+  font-family: var(--font-mono);
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--color-ink);
+  letter-spacing: -0.005em;
+  line-height: 1.35;
+}
+.md-credo .elab {
+  grid-column: 2;
+  font-style: italic;
+  color: var(--color-ink-soft);
+  font-size: 0.86rem;
+  margin-top: 0.18rem;
+  letter-spacing: 0;
+}
+
+/* Offer cards — brutalist editorial. Shared grid borders, no rounding,
+   big numerals as the visual hook, hover slides an orange rule along the
+   bottom. */
+.md-shapes {
+  margin-top: 1.8rem;
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 0;
+  border-top: 1px solid var(--color-rule);
+}
+@media (min-width: 720px) {
+  .md-shapes { grid-template-columns: repeat(3, 1fr); }
+}
+.md-shape {
+  position: relative;
+  padding: 2.2rem 1.6rem 2.4rem;
+  border-bottom: 1px solid var(--color-rule);
+  background: transparent;
+  transition: background 0.3s ease;
+  overflow: hidden;
+}
+@media (min-width: 720px) {
+  .md-shape {
+    border-right: 1px solid var(--color-rule);
+  }
+  .md-shape:last-child { border-right: 0; }
+}
+.md-shape::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  height: 2px;
+  width: 0;
+  background: var(--color-accent);
+  transition: width 0.45s ease;
+}
+.md-shape:hover { background: var(--color-paper-deep); }
+.md-shape:hover::after { width: 100%; }
+.md-shape .shape-n {
+  font-size: 1.7rem;
+  font-weight: 600;
+  color: var(--color-accent);
+  letter-spacing: -0.02em;
+  line-height: 1;
+  font-variant-numeric: tabular-nums;
+}
+.md-shape .shape-key {
+  margin-top: 0.85rem;
+  font-size: 1.05rem;
+  font-weight: 600;
+  color: var(--color-ink);
+  letter-spacing: -0.005em;
+}
+.md-shape .shape-text {
+  margin-top: 0.65rem;
+  font-size: 0.9rem;
+  line-height: 1.6;
+  color: var(--color-ink-soft);
+}
+
+/* "→ link" rows — used at the bottom of /begin and /contact */
+.md-arrow {
+  font-size: 0.95rem;
+  color: var(--color-ink);
+  display: inline-flex;
+  align-items: baseline;
+  gap: 0.55rem;
+}
+.md-arrow::before {
+  content: "→";
+  color: var(--color-accent);
+  font-weight: 400;
+}
+.md-arrow + .md-arrow { margin-top: 0.4rem; }
+
+/* Reveal-on-scroll — the only page motion. Single fade. */
+.reveal {
+  opacity: 0;
+  transition: opacity 0.6s ease;
+}
+.reveal.is-visible { opacity: 1; }
+
+/* ---------------------------------------------------------
+ * CTA block — full-bleed dark section. The page's ending
+ * punctuation mark: ink-on-paper inverted to paper-on-ink.
+ * ---------------------------------------------------------*/
+.cta-block {
+  position: relative;
+  margin-top: 5rem;
+  background: var(--color-ink);
+  color: var(--color-paper);
+  padding: 4rem 0 5rem;
+  /* Full-bleed escape from any centered parent */
+  margin-left: calc(50% - 50vw);
+  margin-right: calc(50% - 50vw);
+  width: 100vw;
+}
+@media (min-width: 768px) {
+  .cta-block { margin-top: 7rem; padding: 6rem 0 7.5rem; }
+}
+.cta-block-inner {
+  max-width: var(--container-wide);
+  margin: 0 auto;
+  padding-inline: 1.5rem;
+}
+@media (min-width: 768px) {
+  .cta-block-inner { padding-inline: 2.5rem; }
+}
+@media (min-width: 1200px) {
+  .cta-block-inner { padding-inline: 3rem; }
+}
+.cta-block .md-h2 {
+  color: var(--color-paper);
+  margin-top: 0;
+  margin-bottom: 2.4rem;
+}
+.cta-block .md-h2::before { color: var(--color-accent); }
+.cta-block .md-h2::after { background: rgba(250, 250, 247, 0.18); }
+.cta-block .cta-headline { color: var(--color-paper); }
+.cta-block .md-prose p { color: rgba(250, 250, 247, 0.78); }
+.cta-block .cta-primary-link {
+  color: var(--color-paper);
+  border-bottom-color: var(--color-accent);
+}
+.cta-block .cta-primary-link::before { color: var(--color-accent); }
+.cta-block .cta-primary-link:hover {
+  color: var(--color-accent);
+  border-bottom-color: var(--color-paper);
+}
+.cta-block .cta-secondary { color: rgba(250, 250, 247, 0.5); }
+.cta-block .cta-secondary .ink-link {
+  color: var(--color-paper);
+  background-image: linear-gradient(var(--color-paper), var(--color-paper));
+}

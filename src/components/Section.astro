@@ -1,0 +1,16 @@
+---
+interface Props {
+  label: string;
+  id?: string;
+  level?: 2 | 3;
+}
+
+const { label, id, level = 2 } = Astro.props;
+const Tag = `h${level}` as "h2" | "h3";
+const cls = level === 2 ? "md-h2" : "md-h3";
+---
+
+<section id={id} class="reveal">
+  <Tag class={cls}><span class="label-text">{label}</span></Tag>
+  <slot />
+</section>

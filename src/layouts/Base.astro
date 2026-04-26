@@ -1,0 +1,99 @@
+---
+import "~/styles/global.css";
+import Nav from "~/components/Nav.astro";
+import Footer from "~/components/Footer.astro";
+
+interface Props {
+  title: string;
+  description?: string;
+  lang?: string;
+  showNav?: boolean;
+}
+
+const {
+  title,
+  description = "Wedecom helps founders, scale-ups, and product teams adapt their software delivery model for AI: sharper product decisions, faster implementation, shorter feedback loops, and maintainable systems. Founder-led by Matthias Wesolowski, near Munich.",
+  lang = "en",
+  showNav = true,
+} = Astro.props;
+
+const canonical = new URL(Astro.url.pathname, Astro.site).toString();
+---
+
+<!doctype html>
+<html lang={lang}>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="generator" content={Astro.generator} />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonical} />
+
+    <link rel="icon" type="image/x-icon" href="/favicon.ico" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+    <link rel="manifest" href="/site.webmanifest" />
+    <meta name="theme-color" content="#FAFAF7" />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:image" content="/logo.png" />
+    <meta name="twitter:card" content="summary" />
+
+    <script type="application/ld+json" set:html={JSON.stringify({
+      "@context": "https://schema.org",
+      "@type": "Person",
+      "name": "Matthias Wesolowski",
+      "url": "https://wedecom-consulting.de",
+      "sameAs": ["https://www.linkedin.com/in/matthias-wesolowski-320b033b/"],
+      "worksFor": {
+        "@type": "Organization",
+        "name": "Wedecom Consulting GmbH",
+        "url": "https://wedecom-consulting.de",
+        "address": {
+          "@type": "PostalAddress",
+          "streetAddress": "Estostr. 13A",
+          "addressLocality": "Olching",
+          "postalCode": "82140",
+          "addressCountry": "DE"
+        }
+      }
+    })} />
+  </head>
+  <body>
+    {showNav && <Nav />}
+    <main id="main">
+      <slot />
+    </main>
+    <Footer />
+
+    <script>
+      // Single fade-in on scroll. No active-section tracking; the
+      // README aesthetic doesn't need wayfinding chrome.
+      const els = document.querySelectorAll(".reveal");
+      if ("IntersectionObserver" in window) {
+        const io = new IntersectionObserver(
+          (entries) => {
+            for (const e of entries) {
+              if (e.isIntersecting) {
+                e.target.classList.add("is-visible");
+                io.unobserve(e.target);
+              }
+            }
+          },
+          { threshold: 0.12, rootMargin: "0px 0px -8% 0px" },
+        );
+        els.forEach((el) => io.observe(el));
+      } else {
+        els.forEach((el) => el.classList.add("is-visible"));
+      }
+    </script>
+  </body>
+</html>
