@@ -12,7 +12,7 @@ interface Props {
 
 const {
   title,
-  description = "Wedecom helps founders and engineering leaders redesign software delivery around AI. Founder-led by Matthias Wesolowski, near Munich.",
+  description = "Wedecom helps startups and engineering leaders build AI-native product teams. Founder-led by Matthias Wesolowski, near Munich.",
   lang = "en",
   showNav = true,
 } = Astro.props;
@@ -50,10 +50,12 @@ const canonical = new URL(Astro.url.pathname, Astro.site).toString();
       "name": "Matthias Wesolowski",
       "url": "https://wedecom-consulting.de",
       "sameAs": ["https://www.linkedin.com/in/matthias-wesolowski-320b033b/"],
+      "knowsAbout": ["AI-native organizations", "AI-native software delivery", "Software engineering"],
       "worksFor": {
         "@type": "Organization",
         "name": "Wedecom Consulting GmbH",
         "url": "https://wedecom-consulting.de",
+        "description": "Consulting for AI-native product and engineering teams",
         "address": {
           "@type": "PostalAddress",
           "streetAddress": "Estostr. 13A",
