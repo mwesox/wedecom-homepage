@@ -44,8 +44,8 @@ npx wrangler dev   # serves dist/ like Cloudflare does
 ## Deployment
 
 Pushes to `main` deploy via GitHub Actions (`.github/workflows/deploy.yml`):
-`npm run build`, then `wrangler deploy`. Pull requests only build and run
-`wrangler deploy --dry-run`.
+`npm run build`, then `wrangler deploy`. Work happens directly on `main`; see
+`AGENTS.md`.
 
 Required repository secrets:
 
