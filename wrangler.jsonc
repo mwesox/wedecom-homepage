@@ -5,12 +5,12 @@
   "assets": {
     "directory": "./dist",
     "html_handling": "drop-trailing-slash",
-    "not_found_handling": "none"
+    "not_found_handling": "404-page"
   },
   "routes": [
     { "pattern": "wedecom-consulting.de", "custom_domain": true },
     { "pattern": "www.wedecom-consulting.de", "custom_domain": true }
   ],
   "workers_dev": false,
-  "observability": { "enabled": true }
+  "observability": { "enabled": false }
 }
