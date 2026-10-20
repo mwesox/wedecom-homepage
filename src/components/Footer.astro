@@ -2,29 +2,25 @@
 const year = new Date().getFullYear();
 ---
 
-<footer class="mt-24 border-t border-rule-soft">
-  <div class="md-wide py-10 text-[0.82rem] leading-[1.7] text-ink-mute">
-    <div class="grid gap-6 md:grid-cols-[1.5fr_1fr]">
-      <div>
-        <p class="text-ink">Wedecom Consulting GmbH</p>
-        <p>Estostr. 13A · 82140 Olching, near Munich, Germany</p>
-        <p>HRB 229467 · Amtsgericht München</p>
-        <p class="mt-2">
-          <a href="mailto:info@wedecom-consulting.de" class="ink-link">info@wedecom-consulting.de</a>
-        </p>
-      </div>
-      <ul class="flex flex-wrap items-baseline gap-x-5 gap-y-1.5 md:flex-col md:items-end md:gap-y-1.5">
-        <li><a href="/" class="ink-link">home</a></li>
-        <li><a href="/contact" class="ink-link">contact</a></li>
-        <li><a href="/impressum" class="ink-link">impressum</a></li>
-        <li><a href="/datenschutz" class="ink-link">datenschutz</a></li>
-        <li>
-          <a href="https://www.linkedin.com/in/matthias-wesolowski-320b033b/" target="_blank" rel="noopener noreferrer" class="ink-link">
-            linkedin ↗
-          </a>
-        </li>
-      </ul>
+<footer class="wrap site-foot">
+  <div class="site-foot-grid">
+    <div>
+      <p><strong>Wedecom Consulting GmbH</strong></p>
+      <p>Estostr. 13A, 82140 Olching, Germany</p>
+      <p>HRB 229467, Amtsgericht München</p>
+      <p class="mt-2">
+        <a href="mailto:info@wedecom-consulting.de" class="ink-link">info@wedecom-consulting.de</a>
+      </p>
     </div>
-    <p class="mt-8 border-t border-rule-soft pt-5">© {year} Wedecom Consulting GmbH</p>
+    <ul>
+      <li><a href="/" class="ink-link">Home</a></li>
+      <li><a href="/contact" class="ink-link">Contact</a></li>
+      <li><a href="/impressum" class="ink-link">Impressum</a></li>
+      <li><a href="/datenschutz" class="ink-link">Datenschutz</a></li>
+      <li>
+        <a href="https://www.linkedin.com/in/matthias-wesolowski-320b033b/" target="_blank" rel="noopener noreferrer" class="ink-link">LinkedIn</a>
+      </li>
+    </ul>
   </div>
+  <p class="site-foot-copy">© {year} Wedecom Consulting GmbH</p>
 </footer>

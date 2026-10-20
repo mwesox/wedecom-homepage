@@ -14,7 +14,7 @@ Served from **Cloudflare Workers static assets**.
 | --------- | -------------------------------------------------------------- |
 | Framework | Astro 7 (`output: 'static'`, `trailingSlash: 'never'`)          |
 | Styling   | Tailwind v4 (config-in-CSS via `@theme` in `src/styles/global.css`) |
-| Font      | JetBrains Mono, self-hosted via `@fontsource-variable`          |
+| Font      | Bricolage Grotesque, self-hosted via `@fontsource-variable`     |
 | Hosting   | Cloudflare Worker `wedecom-homepage` (assets only, `wrangler.jsonc`) |
 | SEO       | `@astrojs/sitemap`, `public/robots.txt`                         |
 
@@ -86,7 +86,7 @@ src/
     Nav.astro
     Footer.astro
     Section.astro          # "## LABEL" section heading + slot
-  styles/global.css        # @theme tokens, base styles, CSS-only reveal animation
+  styles/global.css        # @theme tokens, layout grid, hero loop animation
 public/                    # logo, favicons, webmanifest, robots.txt, _headers
 legacy/                    # previous *.html files, kept for reference
 ```

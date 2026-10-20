@@ -34,8 +34,9 @@ Company site of Wedecom Consulting GmbH: static Astro site on Cloudflare Workers
   and image; an external resource needs a CSP change and a Datenschutz update.
   `vite.build.assetsInlineLimit: 0` keeps assets as files, since the CSP
   blocks `data:` URIs.
-- Pages ship no client-side JavaScript; animations are CSS
-  (`.reveal` uses scroll-driven animations).
+- Pages ship no client-side JavaScript. The one animation is the CSS signal
+  running around the delivery-loop diagram in the hero; keep it the only
+  moving part.
 - `impressum.astro` and `datenschutz.astro` are German legal pages. Update
   Datenschutz whenever hosting, tracking, embeds or contact channels change.
 - Content stays editorial: plain sections and prose, no status or
