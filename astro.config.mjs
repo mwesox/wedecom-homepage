@@ -1,5 +1,5 @@
 import { defineConfig } from "astro/config";
-import react from "@astrojs/react";
+import sitemap from "@astrojs/sitemap";
 import tailwindcss from "@tailwindcss/vite";
 
 export default defineConfig({
@@ -7,8 +7,10 @@ export default defineConfig({
   output: "static",
   trailingSlash: "never",
   build: { format: "directory" },
-  integrations: [react()],
+  integrations: [sitemap({ filter: (page) => !page.endsWith("/404") })],
   vite: {
     plugins: [tailwindcss()],
+    // Keep every asset a file so the CSP can stay at 'self' (no data: URIs).
+    build: { assetsInlineLimit: 0 },
   },
 });

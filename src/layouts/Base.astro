@@ -37,14 +37,11 @@ const canonical = new URL(Astro.url.pathname, Astro.site).toString();
     <link rel="manifest" href="/site.webmanifest" />
     <meta name="theme-color" content="#FAFAF7" />
 
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-
     <meta property="og:type" content="website" />
     <meta property="og:url" content={canonical} />
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
-    <meta property="og:image" content="/logo.png" />
+    <meta property="og:image" content={new URL("/logo.png", Astro.site).toString()} />
     <meta name="twitter:card" content="summary" />
 
     <script type="application/ld+json" set:html={JSON.stringify({
@@ -73,27 +70,5 @@ const canonical = new URL(Astro.url.pathname, Astro.site).toString();
       <slot />
     </main>
     <Footer />
-
-    <script>
-      // Single fade-in on scroll. No active-section tracking; the
-      // README aesthetic doesn't need wayfinding chrome.
-      const els = document.querySelectorAll(".reveal");
-      if ("IntersectionObserver" in window) {
-        const io = new IntersectionObserver(
-          (entries) => {
-            for (const e of entries) {
-              if (e.isIntersecting) {
-                e.target.classList.add("is-visible");
-                io.unobserve(e.target);
-              }
-            }
-          },
-          { threshold: 0.12, rootMargin: "0px 0px -8% 0px" },
-        );
-        els.forEach((el) => io.observe(el));
-      } else {
-        els.forEach((el) => el.classList.add("is-visible"));
-      }
-    </script>
   </body>
 </html>
