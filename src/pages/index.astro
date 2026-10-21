@@ -13,7 +13,7 @@ const shifts = [
   {
     glyph: "steps",
     title: "AI in every step",
-    text: "Specs, code, tests, review, release. With checks that catch what the AI gets wrong.",
+    text: "Specs, code, verification, release. Agents prove their work with tests and the running app.",
   },
   {
     glyph: "fold",
@@ -24,7 +24,7 @@ const shifts = [
 
 // Illustrative queue per delivery stage; `slow` marks the stage where work piles up.
 const flow = {
-  stages: ["Spec", "Code", "Review", "Release"],
+  stages: ["Spec", "Code", "Verify", "Release"],
   rows: [
     { name: "Before AI", counts: [2, 7, 2, 1], slow: 1 },
     { name: "With AI coding", counts: [8, 1, 2, 1], slow: 0 },
@@ -34,15 +34,15 @@ const flow = {
 const theses = [
   {
     line: "AI changes the organization, not only the code.",
-    elab: "It changes who decides what, and how work gets specified, reviewed and shipped.",
+    elab: "It changes who decides what, and how work gets specified, verified and shipped.",
   },
   {
     line: "Speed exposes weak systems.",
     elab: "Unclear specs and fragile architecture now fail faster.",
   },
   {
-    line: "Proof beats trust.",
-    elab: "Agent work ships when tests and the running app prove it, not when it looks right.",
+    line: "Review moves upstream.",
+    elab: "People judge the spec and the design. Agents prove the code works, with tests and the running app.",
   },
 ];
 
