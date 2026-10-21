@@ -33,22 +33,22 @@ const effort: { name: string; summary: string; shipped: number; slow: string; wa
     shipped: 0.93,
     slow: "Code",
     waves: [
-      { stage: "Spec", at: 0.12, spread: 0.06, height: 0.35 },
+      { stage: "Spec", at: 0.14, spread: 0.09, height: 0.3 },
       { stage: "Code", at: 0.42, spread: 0.13, height: 0.95 },
       { stage: "Verify", at: 0.68, spread: 0.07, height: 0.5 },
       { stage: "Release", at: 0.86, spread: 0.035, height: 0.35 },
     ],
   },
   {
-    name: "With AI coding",
-    summary: "With AI coding, the spec takes the most effort, coding shrinks, and shipping comes earlier.",
-    shipped: 0.68,
+    name: "With AI",
+    summary: "With AI, the spec still takes the most effort, but less waiting. Coding shrinks, and shipping comes earlier.",
+    shipped: 0.58,
     slow: "Spec",
     waves: [
-      { stage: "Spec", at: 0.17, spread: 0.075, height: 0.68 },
-      { stage: "Code", at: 0.36, spread: 0.04, height: 0.3 },
-      { stage: "Verify", at: 0.47, spread: 0.055, height: 0.45 },
-      { stage: "Release", at: 0.61, spread: 0.03, height: 0.35 },
+      { stage: "Spec", at: 0.13, spread: 0.055, height: 0.62 },
+      { stage: "Code", at: 0.27, spread: 0.035, height: 0.3 },
+      { stage: "Verify", at: 0.385, spread: 0.05, height: 0.45 },
+      { stage: "Release", at: 0.52, spread: 0.028, height: 0.35 },
     ],
   },
 ];
@@ -158,8 +158,9 @@ const graphNotes = [
       <p class="lead">Faster code moves the bottleneck.</p>
       <div class="md-prose">
         <p>
-          AI writes the code in minutes. The hard part is now deciding what
-          you need and really want, and writing it down clearly enough to build.
+          AI writes the code in minutes and speeds up research and specs too.
+          The hard part is still deciding what you need and really want, and
+          writing it down clearly enough to build.
         </p>
       </div>
       <figure class="effort">
@@ -236,7 +237,9 @@ const graphNotes = [
           <div class="md-prose">
             <p>
               Product owner, engineer and tech lead in one person, with the
-              product sense to find out what customers really need. Startups
+              product sense to find out what customers really need. AI covers
+              research and subject-matter questions, so he rarely waits on
+              others and moves faster on his own. Startups
               bring him in to build AI-native teams, and he owns the outcome:
               from the first question about the customer to the release and
               what happens after it.

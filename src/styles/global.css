@@ -330,7 +330,7 @@
 .wave-label-slow { fill: var(--color-ink); }
 .effort-ship-label { fill: var(--color-mute); font-size: 13px; text-anchor: middle; }
 @media (max-width: 600px) {
-  .wave-label { font-size: 22px; }
+  .wave-label { font-size: 20px; }
   .effort-ship-label { font-size: 20px; }
 }
 
