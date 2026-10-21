@@ -15,7 +15,12 @@ Company site of Wedecom Consulting GmbH: static Astro site on Cloudflare Workers
 ## Cloudflare setup
 
 - Worker `wedecom-homepage` serves `dist/` as static assets (`wrangler.jsonc`),
-  with custom domains for the apex and `www`.
+  with custom domains for the apex and `www`. For `/api/*` it runs
+  `worker/index.ts`: the contact form posts there and the Worker sends the
+  message through Resend, rate-limited per IP.
+- `RESEND_API_KEY` is a Worker secret (`npx wrangler secret put
+  RESEND_API_KEY`). Local `wrangler dev` reads it from `.dev.vars`
+  (gitignored).
 - Deploy with Wrangler. The `cf` CLI beta cannot build Astro projects, so
   `cf deploy` / `cf build` / `cf init` stay unused here; `cf` (via
   `npx cf@latest`) handles zone work: DNS, rules, zone settings.
@@ -33,7 +38,9 @@ Company site of Wedecom Consulting GmbH: static Astro site on Cloudflare Workers
 - `public/_headers` sets a same-origin-only CSP. Self-host every font, script
   and image; an external resource needs a CSP change and a Datenschutz update.
   `vite.build.assetsInlineLimit: 0` keeps assets as files, since the CSP
-  blocks `data:` URIs.
+  blocks `data:` URIs. `form-action 'self'` allows the contact form.
+- Contact channels are the contact form and LinkedIn. Plain email addresses
+  appear only where the law requires them (Impressum, Datenschutz).
 - Pages ship no client-side JavaScript. The one animation is the CSS signal
   pulses running down the slice lanes of the hero graph; keep it the only
   moving part.
