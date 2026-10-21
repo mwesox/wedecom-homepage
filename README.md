@@ -62,6 +62,9 @@ Required repository secrets:
 Manual deploy: `npm run deploy` (needs `wrangler login` or the env vars above).
 
 Worker secret, set once: `npx wrangler secret put RESEND_API_KEY`.
+The Worker sends from `Wedecom Website <website@wedecom-consulting.de>` to
+`info@wedecom-consulting.de` with the visitor as reply-to, so the domain must
+stay verified in Resend.
 
 Cloudflare-side configuration that is **not** in this repo (managed with the
 `cf` CLI or the dashboard):
