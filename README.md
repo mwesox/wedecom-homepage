@@ -86,7 +86,7 @@ src/
     Nav.astro
     Footer.astro
     Section.astro          # "## LABEL" section heading + slot
-  styles/global.css        # @theme tokens, layout grid, hero loop animation
+  styles/global.css        # @theme tokens, layout grid, hero graph animation
 public/                    # logo, favicons, webmanifest, robots.txt, _headers
 legacy/                    # previous *.html files, kept for reference
 ```

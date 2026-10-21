@@ -2,13 +2,6 @@
 import Base from "~/layouts/Base.astro";
 import Section from "~/components/Section.astro";
 
-const stops = [
-  { label: "Decide", x: 200, y: 50, lx: 200, ly: 28, anchor: "middle" },
-  { label: "Build", x: 350, y: 200, lx: 368, ly: 205, anchor: "start" },
-  { label: "Review", x: 200, y: 350, lx: 200, ly: 383, anchor: "middle" },
-  { label: "Release", x: 50, y: 200, lx: 32, ly: 205, anchor: "end" },
-];
-
 const shifts = [
   {
     title: "Shorter path to shipped product",
@@ -47,7 +40,28 @@ const facts = [
   { term: "Languages", value: "English, German, Polish" },
 ];
 
-const loop = "M200,50 A150,150 0 1,1 200,350 A150,150 0 1,1 200,50";
+// Hero graph: one intent fans out to five agent lanes; the proof gate
+// at y=360 sends the rejected lane back, the rest merge into "Shipped".
+const lanes = [
+  { x: 40, commits: [190, 280] },
+  { x: 95, commits: [170, 235, 300] },
+  { x: 150, commits: [210, 290] },
+  { x: 205, commits: [200, 270], rejected: true },
+  { x: 260, commits: [180, 250, 310] },
+];
+const lanePath = ({ x, rejected }: { x: number; rejected?: boolean }) => {
+  const fanOut = x === 150 ? "M150,40 L150,140" : `M150,40 C150,100 ${x},90 ${x},140`;
+  if (rejected) return `${fanOut} L${x},318`;
+  const fanIn = x === 150 ? "L150,500" : `C${x},440 150,440 150,500`;
+  return `${fanOut} L${x},390 ${fanIn}`;
+};
+
+const graphNotes = [
+  { y: 38, label: "Intent", notes: ["You set the goal", "and the bar"] },
+  { y: 228, label: "Agents in parallel", notes: ["One worktree each"] },
+  { y: 358, label: "Proof", notes: ["Tests and the real app.", "Unproven work goes back."] },
+  { y: 498, label: "Shipped", notes: ["Only verified work", "reaches main"] },
+];
 ---
 
 <Base
@@ -67,19 +81,22 @@ const loop = "M200,50 A150,150 0 1,1 200,350 A150,150 0 1,1 200,50";
           <a href="mailto:info@wedecom-consulting.de" class="btn">Email Matthias</a>
         </div>
       </div>
-      <div class="hero-loop">
-        <svg viewBox="-60 0 520 400" role="img" aria-labelledby="loop-title">
-          <title id="loop-title">The delivery loop: decide, build, review, release, with AI at the center</title>
-          <circle class="loop-inner" cx="200" cy="200" r="100" />
-          <path class="loop-track" d={loop} />
-          <path class="loop-signal" d={loop} pathLength="1000" />
-          {stops.map((s) => (
+      <div class="hero-graph">
+        <svg viewBox="0 0 520 560" role="img" aria-labelledby="graph-title">
+          <title id="graph-title">One intent fans out to five agents working in parallel. A proof gate sends one back; the verified work merges and ships.</title>
+          {lanes.map((l) => <path class="lane" d={lanePath(l)} />)}
+          {lanes.map((l, i) => <path class={`lane-pulse lane-pulse-${i + 1}`} d={lanePath(l)} pathLength="1000" />)}
+          {lanes.flatMap((l) => l.commits.map((y) => <circle class="commit" cx={l.x} cy={y} r="5" />))}
+          <path class="reject" d="M198,323 L212,337 M212,323 L198,337" />
+          <path class="gate" d="M16,360 L284,360 M16,352 L16,368 M284,352 L284,368" />
+          <circle class="intent" cx="150" cy="40" r="11" />
+          <circle class="shipped" cx="150" cy="500" r="11" />
+          {graphNotes.map((n) => (
             <g>
-              <circle class="loop-stop" cx={s.x} cy={s.y} r="7" />
-              <text class="loop-label" x={s.lx} y={s.ly} text-anchor={s.anchor}>{s.label}</text>
+              <text class="graph-label" x="320" y={n.y}>{n.label}</text>
+              {n.notes.map((t, i) => <text class="graph-note" x="320" y={n.y + 22 + i * 20}>{t}</text>)}
             </g>
           ))}
-          <text class="loop-core" x="200" y="228" text-anchor="middle">AI</text>
         </svg>
       </div>
     </div>
