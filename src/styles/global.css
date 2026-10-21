@@ -393,22 +393,38 @@
  * Footer
  * ---------------------------------------------------------*/
 .site-foot {
+  display: flex;
+  flex-direction: column-reverse;
+  gap: 1.25rem;
   font-size: 0.9rem;
   color: var(--color-mute);
-  padding-block: 3rem;
+  padding-block: 2rem;
 }
-.site-foot-grid { display: grid; gap: 2rem; }
 @media (min-width: 900px) {
-  .site-foot-grid { grid-template-columns: 1fr auto; }
+  .site-foot {
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+  }
 }
-.site-foot strong { color: var(--color-ink); font-weight: 650; }
+.site-foot p { margin: 0; }
 .site-foot ul {
   list-style: none;
   padding: 0;
   margin: 0;
   display: flex;
   flex-wrap: wrap;
-  gap: 0.4rem 1.5rem;
+  align-items: center;
+  gap: 0.5rem 1.5rem;
 }
-.site-foot a { color: var(--color-ink); }
-.site-foot-copy { margin-top: 2.5rem; }
+.site-foot li { display: flex; }
+.site-foot a {
+  color: var(--color-ink);
+  text-decoration-thickness: 1px;
+  text-underline-offset: 0.2em;
+}
+.site-foot a:not(:hover) { text-decoration: none; }
+.site-foot a:hover { text-decoration-color: var(--color-signal); }
+.site-foot-icon { display: inline-flex; padding: 0.25rem; margin: -0.25rem; }
+.site-foot-icon svg { display: block; fill: currentColor; }
+.site-foot-icon:hover { color: var(--color-signal); }
