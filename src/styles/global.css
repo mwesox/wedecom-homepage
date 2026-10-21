@@ -372,7 +372,7 @@
   .closing-grid { grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); column-gap: 2rem; }
 }
 .closing p { color: rgb(244 245 247 / 0.72); max-width: 34rem; margin: 0; }
-.closing-mail {
+.closing-link {
   display: inline-block;
   font-size: clamp(1.4rem, 3.2vw, 2.6rem);
   font-stretch: 85%;
@@ -385,7 +385,7 @@
   text-underline-offset: 0.18em;
   overflow-wrap: anywhere;
 }
-.closing-mail:hover { color: var(--color-signal); }
+.closing-link:hover { color: var(--color-signal); }
 .closing .ink-link { color: var(--color-paper); }
 .closing-alt { margin-top: 1rem !important; font-size: 0.95rem; }
 
