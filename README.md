@@ -89,7 +89,7 @@ src/
   layouts/Base.astro       # head, meta, JSON-LD, Nav + Footer
   pages/
     index.astro            # home; arrays at the top hold the Translations: `shifts`,
-                           # `flow` (bottleneck diagram), `theses`, `facts`
+                           # `effort` (bottleneck waves), `theses`, `facts`
     contact.astro          # contact form, posts to /api/contact
     contact/sent.astro     # redirect target after a sent message
     contact/failed.astro   # redirect target after a rejected message

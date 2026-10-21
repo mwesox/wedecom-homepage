@@ -22,13 +22,47 @@ const shifts = [
   },
 ];
 
-// Illustrative queue per delivery stage; `slow` marks the stage where work piles up.
-const flow = {
-  stages: ["Spec", "Code", "Verify", "Release"],
-  rows: [
-    { name: "Before AI", counts: [2, 7, 2, 1], slow: 1 },
-    { name: "With AI coding", counts: [8, 1, 2, 1], slow: 0 },
-  ],
+// Effort per stage on the way from idea to shipped, drawn as waves:
+// `at` is where a stage peaks on the timeline (0 to 1), `spread` how long
+// it runs, `height` how much effort it takes. `slow` is the bottleneck.
+type Wave = { stage: string; at: number; spread: number; height: number };
+const effort: { name: string; summary: string; shipped: number; slow: string; waves: Wave[] }[] = [
+  {
+    name: "Before AI",
+    summary: "Before AI, coding takes the most effort and shipping comes late.",
+    shipped: 0.93,
+    slow: "Code",
+    waves: [
+      { stage: "Spec", at: 0.12, spread: 0.06, height: 0.35 },
+      { stage: "Code", at: 0.42, spread: 0.13, height: 0.95 },
+      { stage: "Verify", at: 0.68, spread: 0.07, height: 0.5 },
+      { stage: "Release", at: 0.86, spread: 0.035, height: 0.35 },
+    ],
+  },
+  {
+    name: "With AI coding",
+    summary: "With AI coding, the spec takes the most effort, coding shrinks, and shipping comes earlier.",
+    shipped: 0.68,
+    slow: "Spec",
+    waves: [
+      { stage: "Spec", at: 0.17, spread: 0.075, height: 0.68 },
+      { stage: "Code", at: 0.36, spread: 0.04, height: 0.3 },
+      { stage: "Verify", at: 0.47, spread: 0.055, height: 0.45 },
+      { stage: "Release", at: 0.61, spread: 0.03, height: 0.35 },
+    ],
+  },
+];
+const chartWidth = 600;
+const baseline = 120;
+const peak = 95;
+const waveTop = (w: Wave) => baseline - peak * w.height;
+const wavePath = (w: Wave) => {
+  const points = [];
+  for (let x = 0; x <= chartWidth; x += 4) {
+    const y = baseline - peak * w.height * Math.exp(-((x / chartWidth - w.at) ** 2) / (2 * w.spread ** 2));
+    points.push(`${x},${y.toFixed(1)}`);
+  }
+  return `M${points.join(" L")} L${chartWidth},${baseline} L0,${baseline} Z`;
 };
 
 const theses = [
@@ -128,32 +162,22 @@ const graphNotes = [
           you need and really want, and writing it down clearly enough to build.
         </p>
       </div>
-      <figure class="flow">
-        <table>
-          <thead>
-            <tr>
-              <td></td>
-              {flow.stages.map((s) => <th scope="col">{s}</th>)}
-            </tr>
-          </thead>
-          <tbody>
-            {flow.rows.map((r) => (
-              <tr>
-                <th scope="row">{r.name}</th>
-                {r.counts.map((n, i) => (
-                  <td class={i === r.slow ? "is-slow" : undefined}>
-                    <span class="flow-dots" aria-hidden="true">
-                      {Array.from({ length: n }, () => <i />)}
-                    </span>
-                    <span class="sr-only">{n} waiting</span>
-                    {i === r.slow && <span class="flow-tag">Bottleneck</span>}
-                  </td>
-                ))}
-              </tr>
-            ))}
-          </tbody>
-        </table>
-        <figcaption>Work waiting at each stage. Illustrative.</figcaption>
+      <figure class="effort">
+        {effort.map((row, i) => (
+          <div class="effort-row">
+            <p class="effort-name" id={`effort-${i}`}>{row.name}</p>
+            <svg viewBox={`0 0 ${chartWidth} 158`} role="img" aria-labelledby={`effort-${i} effort-${i}-summary`}>
+              <title id={`effort-${i}-summary`}>{row.summary}</title>
+              {row.waves.map((w) => <path class={w.stage === row.slow ? "wave wave-slow" : "wave"} d={wavePath(w)} />)}
+              <line class="effort-base" x1="0" y1={baseline} x2={chartWidth} y2={baseline} />
+              {row.waves.map((w) => (
+                <text class={w.stage === row.slow ? "wave-label wave-label-slow" : "wave-label"} x={w.at * chartWidth} y={waveTop(w) - 10}>{w.stage}</text>
+              ))}
+              <circle class="effort-ship" cx={row.shipped * chartWidth} cy={baseline} r="7" />
+              <text class="effort-ship-label" x={row.shipped * chartWidth} y={baseline + 26}>Shipped</text>
+            </svg>
+          </div>
+        ))}
       </figure>
       <ul class="shifts">
         {shifts.map((s) => (
