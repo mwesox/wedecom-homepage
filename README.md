@@ -101,7 +101,8 @@ src/
     Section.astro          # "## LABEL" section heading + slot
   styles/global.css        # @theme tokens, layout grid, hero graph animation
 worker/index.ts            # Worker: /api/contact → Resend, everything else → assets
-public/                    # logo, favicons, webmanifest, robots.txt, _headers
+public/                    # logo, og.png (1200×630 link preview, mirrors the hero),
+                           # favicons, webmanifest, robots.txt, _headers
 legacy/                    # previous *.html files, kept for reference
 ```
 

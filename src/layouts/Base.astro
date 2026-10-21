@@ -8,6 +8,7 @@ interface Props {
   description?: string;
   lang?: string;
   showNav?: boolean;
+  noindex?: boolean;
 }
 
 const {
@@ -15,9 +16,54 @@ const {
   description = "Wedecom helps startups and engineering leaders build AI-native product teams. Founder-led by Matthias Wesolowski, near Munich.",
   lang = "en",
   showNav = true,
+  noindex = false,
 } = Astro.props;
 
-const canonical = new URL(Astro.url.pathname, Astro.site).toString();
+const site = Astro.site!.origin;
+const canonical = new URL(Astro.url.pathname, site).toString();
+const ogImage = new URL("/og.png", site).toString();
+const linkedin = "https://www.linkedin.com/in/matthias-wesolowski-320b033b/";
+
+const structuredData = {
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "ProfessionalService",
+      "@id": `${site}/#organization`,
+      "name": "Wedecom Consulting GmbH",
+      "url": site,
+      "logo": new URL("/logo.png", site).toString(),
+      "image": ogImage,
+      "description": "Consulting for AI-native product and engineering teams",
+      "founder": { "@id": `${site}/#founder` },
+      "address": {
+        "@type": "PostalAddress",
+        "streetAddress": "Estostr. 13A",
+        "addressLocality": "Olching",
+        "postalCode": "82140",
+        "addressCountry": "DE",
+      },
+      "areaServed": ["Munich", "Germany", "Europe"],
+      "knowsAbout": ["AI-native organizations", "AI-native software delivery", "Software engineering"],
+    },
+    {
+      "@type": "Person",
+      "@id": `${site}/#founder`,
+      "name": "Matthias Wesolowski",
+      "jobTitle": "Founder",
+      "url": site,
+      "sameAs": [linkedin],
+      "worksFor": { "@id": `${site}/#organization` },
+    },
+    {
+      "@type": "WebSite",
+      "@id": `${site}/#website`,
+      "name": "Wedecom Consulting",
+      "url": site,
+      "publisher": { "@id": `${site}/#organization` },
+    },
+  ],
+};
 ---
 
 <!doctype html>
@@ -28,7 +74,7 @@ const canonical = new URL(Astro.url.pathname, Astro.site).toString();
     <meta name="generator" content={Astro.generator} />
     <title>{title}</title>
     <meta name="description" content={description} />
-    <link rel="canonical" href={canonical} />
+    {noindex ? <meta name="robots" content="noindex" /> : <link rel="canonical" href={canonical} />}
 
     <link rel="icon" type="image/x-icon" href="/favicon.ico" />
     <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
@@ -38,33 +84,18 @@ const canonical = new URL(Astro.url.pathname, Astro.site).toString();
     <meta name="theme-color" content="#141B26" />
 
     <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="Wedecom Consulting" />
+    <meta property="og:locale" content={lang === "de" ? "de_DE" : "en_US"} />
     <meta property="og:url" content={canonical} />
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
-    <meta property="og:image" content={new URL("/logo.png", Astro.site).toString()} />
-    <meta name="twitter:card" content="summary" />
+    <meta property="og:image" content={ogImage} />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content="Wedecom Consulting: Build an AI-native product team." />
+    <meta name="twitter:card" content="summary_large_image" />
 
-    <script type="application/ld+json" set:html={JSON.stringify({
-      "@context": "https://schema.org",
-      "@type": "Person",
-      "name": "Matthias Wesolowski",
-      "url": "https://wedecom-consulting.de",
-      "sameAs": ["https://www.linkedin.com/in/matthias-wesolowski-320b033b/"],
-      "knowsAbout": ["AI-native organizations", "AI-native software delivery", "Software engineering"],
-      "worksFor": {
-        "@type": "Organization",
-        "name": "Wedecom Consulting GmbH",
-        "url": "https://wedecom-consulting.de",
-        "description": "Consulting for AI-native product and engineering teams",
-        "address": {
-          "@type": "PostalAddress",
-          "streetAddress": "Estostr. 13A",
-          "addressLocality": "Olching",
-          "postalCode": "82140",
-          "addressCountry": "DE"
-        }
-      }
-    })} />
+    <script type="application/ld+json" set:html={JSON.stringify(structuredData)} />
   </head>
   <body>
     {showNav && <Nav />}
