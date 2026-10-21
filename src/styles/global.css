@@ -351,6 +351,7 @@
 .glyph-signal { fill: none; stroke: var(--color-signal); stroke-width: 3; stroke-linecap: round; }
 .glyph-node   { fill: var(--color-paper); stroke: var(--color-slate); stroke-width: 2; }
 .glyph-done   { fill: var(--color-signal); }
+.glyph-ring   { fill: none; stroke: var(--color-slate); stroke-width: 1.5; }
 
 /* Dark band between the light sections */
 .band { background: var(--color-ink); color: var(--color-paper); }
@@ -380,7 +381,8 @@
   .founder { grid-template-columns: 200px minmax(0, 1fr); column-gap: 2.5rem; }
 }
 .founder-photo { display: block; width: 200px; height: 200px; border-radius: 6px; }
-.founder-name { margin-bottom: 1rem; }
+.founder-name { margin-bottom: 0.4rem; }
+.founder-role { font-size: 1.1rem; font-weight: 650; margin: 0 0 1rem; }
 .facts {
   margin: 2rem 0 0;
   display: grid;

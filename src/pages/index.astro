@@ -6,9 +6,9 @@ import portrait from "~/assets/matthias.jpg";
 
 const shifts = [
   {
-    glyph: "path",
-    title: "Shorter path to production",
-    text: "Fewer handoffs from decision to running code.",
+    glyph: "converge",
+    title: "Clear specs before code",
+    text: "Agents build exactly what you specify. Wedecom helps you find out what that is.",
   },
   {
     glyph: "steps",
@@ -16,9 +16,9 @@ const shifts = [
     text: "Specs, code, tests, review, release. With checks that catch what the AI gets wrong.",
   },
   {
-    glyph: "team",
-    title: "A senior engineer in your team",
-    text: "Product, architecture and rollout decisions, made with you.",
+    glyph: "fold",
+    title: "A product engineer in your team",
+    text: "Product, engineering and tech lead in one role. Owns the outcome, not the ticket.",
   },
 ];
 
@@ -27,7 +27,7 @@ const flow = {
   stages: ["Spec", "Code", "Review", "Release"],
   rows: [
     { name: "Before AI", counts: [2, 7, 2, 1], slow: 1 },
-    { name: "With AI coding", counts: [5, 1, 8, 4], slow: 2 },
+    { name: "With AI coding", counts: [8, 1, 2, 1], slow: 0 },
   ],
 };
 
@@ -38,7 +38,7 @@ const theses = [
   },
   {
     line: "Speed exposes weak systems.",
-    elab: "Unclear products and fragile architecture now fail faster.",
+    elab: "Unclear specs and fragile architecture now fail faster.",
   },
   {
     line: "Proof beats trust.",
@@ -124,8 +124,8 @@ const graphNotes = [
       <p class="lead">Faster code moves the bottleneck.</p>
       <div class="md-prose">
         <p>
-          AI writes the code in minutes. Then the work waits on unclear specs,
-          slow reviews, fragile architecture and risky releases.
+          AI writes the code in minutes. The hard part is now deciding what
+          you need and really want, and writing it down clearly enough to build.
         </p>
       </div>
       <figure class="flow">
@@ -159,12 +159,11 @@ const graphNotes = [
         {shifts.map((s) => (
           <li>
             <svg class="glyph" viewBox="0 0 64 32" aria-hidden="true">
-              {s.glyph === "path" && (
+              {s.glyph === "converge" && (
                 <>
-                  <path class="glyph-faint" d="M8,24 C8,-4 56,-4 56,24" />
-                  <path class="glyph-signal" d="M8,24 L56,24" />
-                  <circle class="glyph-node" cx="8" cy="24" r="5" />
-                  <circle class="glyph-done" cx="56" cy="24" r="5" />
+                  {[[6, 4], [14, 28], [22, 12], [4, 20]].map(([x, y]) => <path class="glyph-faint" d={`M${x},${y} L54,16`} />)}
+                  {[[6, 4], [14, 28], [22, 12], [4, 20]].map(([x, y]) => <circle class="glyph-node" cx={x} cy={y} r="3.5" />)}
+                  <circle class="glyph-done" cx="54" cy="16" r="6" />
                 </>
               )}
               {s.glyph === "steps" && (
@@ -173,10 +172,10 @@ const graphNotes = [
                   {[12, 26, 40, 54].map((x) => <circle class="glyph-done" cx={x} cy="16" r="5" />)}
                 </>
               )}
-              {s.glyph === "team" && (
+              {s.glyph === "fold" && (
                 <>
-                  {[8, 20, 44, 56].map((x) => <circle class="glyph-node" cx={x} cy="16" r="5" />)}
-                  <circle class="glyph-done" cx="32" cy="16" r="7" />
+                  {[[12, 10], [26, 10], [19, 22]].map(([x, y]) => <circle class="glyph-ring" cx={x} cy={y} r="8" />)}
+                  <circle class="glyph-done" cx="19" cy="14" r="4" />
                 </>
               )}
             </svg>
@@ -209,11 +208,13 @@ const graphNotes = [
         <Image src={portrait} alt="Matthias Wesolowski" width={200} height={200} densities={[1, 2]} class="founder-photo" />
         <div>
           <p class="lead founder-name">Matthias Wesolowski</p>
+          <p class="founder-role">Product engineer. Founder of Wedecom.</p>
           <div class="md-prose">
             <p>
-              Founder of Wedecom. Startups bring him in as advisor and engineer
-              to build AI-native teams. He works in your repositories, reviews
-              and planning, not in slide decks.
+              Product owner, engineer and tech lead in one person. Startups
+              bring him in to build AI-native teams, and he owns the outcome:
+              from the first question about the customer to the release and
+              what happens after it.
             </p>
           </div>
           <dl class="facts">
