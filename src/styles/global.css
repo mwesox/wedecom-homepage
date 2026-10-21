@@ -186,8 +186,8 @@
 
 /* ---------------------------------------------------------
  * Hero. The graph is the page's one moving part: signal
- * pulses run down the agent lanes, through the proof gate,
- * into "Shipped". Inline styles are blocked by the CSP, so
+ * pulses run down the slice lanes, through the proof gate,
+ * into "Shipped"; the rejected slice runs back to the intent. Inline styles are blocked by the CSP, so
  * each lane's timing lives in its own class.
  * ---------------------------------------------------------*/
 .hero {
@@ -240,6 +240,7 @@
   overflow: visible;
 }
 .lane { fill: none; stroke: rgb(244 245 247 / 0.18); stroke-width: 2; }
+.lane-back { fill: none; stroke: rgb(244 245 247 / 0.3); stroke-width: 1.5; stroke-dasharray: 3 6; }
 .lane-pulse {
   fill: none;
   stroke: var(--color-signal);
@@ -251,7 +252,7 @@
 .lane-pulse-1 { animation-duration: 3.4s; animation-delay: -0.6s; stroke-dashoffset: -380; }
 .lane-pulse-2 { animation-duration: 4.2s; animation-delay: -2.1s; stroke-dashoffset: -620; }
 .lane-pulse-3 { animation-duration: 3s;   animation-delay: -1.2s; stroke-dashoffset: -250; }
-.lane-pulse-4 { animation-duration: 3.8s; animation-delay: -0.3s; stroke-dashoffset: -700; }
+.lane-pulse-4 { animation-duration: 6s;   animation-delay: -0.3s; stroke-dashoffset: -700; }
 .lane-pulse-5 { animation-duration: 4.6s; animation-delay: -3s;   stroke-dashoffset: -480; }
 @keyframes lane-run {
   from { stroke-dashoffset: 70; }

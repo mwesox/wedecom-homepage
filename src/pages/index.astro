@@ -40,8 +40,9 @@ const facts = [
   { term: "Languages", value: "English, German, Polish" },
 ];
 
-// Hero graph: one intent fans out to five agent lanes; the proof gate
-// at y=360 sends the rejected lane back, the rest merge into "Shipped".
+// Hero graph: one intent fans out into five slices; the proof gate at
+// y=360 sends the rejected slice back up to the intent, the rest merge
+// into "Shipped".
 const lanes = [
   { x: 40, commits: [190, 280] },
   { x: 95, commits: [170, 235, 300] },
@@ -49,18 +50,21 @@ const lanes = [
   { x: 205, commits: [200, 270], rejected: true },
   { x: 260, commits: [180, 250, 310] },
 ];
+const goBack = "C300,330 300,300 300,250 L300,90 C300,40 200,40 161,40";
+const fanOut = (x: number) => (x === 150 ? "M150,40 L150,140" : `M150,40 C150,100 ${x},90 ${x},140`);
 const lanePath = ({ x, rejected }: { x: number; rejected?: boolean }) => {
-  const fanOut = x === 150 ? "M150,40 L150,140" : `M150,40 C150,100 ${x},90 ${x},140`;
-  if (rejected) return `${fanOut} L${x},318`;
+  if (rejected) return `${fanOut(x)} L${x},318`;
   const fanIn = x === 150 ? "L150,500" : `C${x},440 150,440 150,500`;
-  return `${fanOut} L${x},390 ${fanIn}`;
+  return `${fanOut(x)} L${x},390 ${fanIn}`;
 };
+const pulsePath = (l: { x: number; rejected?: boolean }) =>
+  l.rejected ? `${fanOut(l.x)} L${l.x},330 ${goBack}` : lanePath(l);
 
 const graphNotes = [
-  { y: 38, label: "Intent", notes: ["You set the goal", "and the bar"] },
-  { y: 228, label: "Agents in parallel", notes: ["One worktree each"] },
+  { y: 38, label: "Intent", notes: ["Questioned until", "it is clear"] },
+  { y: 228, label: "Small slices", notes: ["Agents build them,", "even overnight"] },
   { y: 358, label: "Proof", notes: ["Tests and the real app.", "Unproven work goes back."] },
-  { y: 498, label: "Shipped", notes: ["Only verified work", "reaches main"] },
+  { y: 498, label: "Shipped", notes: ["Mistakes become rules", "for the next run"] },
 ];
 ---
 
@@ -83,9 +87,10 @@ const graphNotes = [
       </div>
       <div class="hero-graph">
         <svg viewBox="0 0 520 560" role="img" aria-labelledby="graph-title">
-          <title id="graph-title">One intent fans out to five agents working in parallel. A proof gate sends one back; the verified work merges and ships.</title>
+          <title id="graph-title">One intent is split into small slices that agents build. A proof gate sends one slice back to the intent; the verified slices merge and ship.</title>
           {lanes.map((l) => <path class="lane" d={lanePath(l)} />)}
-          {lanes.map((l, i) => <path class={`lane-pulse lane-pulse-${i + 1}`} d={lanePath(l)} pathLength="1000" />)}
+          <path class="lane-back" d={`M205,330 ${goBack}`} />
+          {lanes.map((l, i) => <path class={`lane-pulse lane-pulse-${i + 1}`} d={pulsePath(l)} pathLength="1000" />)}
           {lanes.flatMap((l) => l.commits.map((y) => <circle class="commit" cx={l.x} cy={y} r="5" />))}
           <path class="reject" d="M198,323 L212,337 M212,323 L198,337" />
           <path class="gate" d="M16,360 L284,360 M16,352 L16,368 M284,352 L284,368" />
