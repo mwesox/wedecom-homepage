@@ -88,7 +88,8 @@ URIs, which the CSP would block.
 src/
   layouts/Base.astro       # head, meta, JSON-LD, Nav + Footer
   pages/
-    index.astro            # home; `stance[]` array at the top holds the point-of-view lines
+    index.astro            # home; arrays at the top hold the Translations: `shifts`,
+                           # `flow` (bottleneck diagram), `theses`, `facts`
     contact.astro          # contact form, posts to /api/contact
     contact/sent.astro     # redirect target after a sent message
     contact/failed.astro   # redirect target after a rejected message
@@ -99,6 +100,7 @@ src/
     Nav.astro
     Footer.astro
     Section.astro          # "## LABEL" section heading + slot
+  assets/matthias.jpg      # founder portrait, optimized by astro:assets at build
   styles/global.css        # @theme tokens, layout grid, hero graph animation
 worker/index.ts            # Worker: /api/contact → Resend, everything else → assets
 public/                    # logo, og.png (1200×630 link preview, mirrors the hero),

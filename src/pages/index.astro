@@ -1,39 +1,52 @@
 ---
 import Base from "~/layouts/Base.astro";
+import { Image } from "astro:assets";
 import Section from "~/components/Section.astro";
+import portrait from "~/assets/matthias.jpg";
 
 const shifts = [
   {
-    title: "Shorter path to shipped product",
-    text: "Fewer steps and handoffs between a product decision and working code in production.",
+    glyph: "path",
+    title: "Shorter path to production",
+    text: "Fewer handoffs from decision to running code.",
   },
   {
-    title: "AI across delivery",
-    text: "AI in coding, tests, code review, documentation, debugging, and releases, with tests and reviews that catch what the AI gets wrong.",
+    glyph: "steps",
+    title: "AI in every step",
+    text: "Specs, code, tests, review, release. With checks that catch what the AI gets wrong.",
   },
   {
-    title: "Senior delivery ownership",
-    text: "One experienced engineer who makes product, architecture, implementation, and rollout decisions together with your team.",
+    glyph: "team",
+    title: "A senior engineer in your team",
+    text: "Product, architecture and rollout decisions, made with you.",
   },
 ];
 
+// Illustrative queue per delivery stage; `slow` marks the stage where work piles up.
+const flow = {
+  stages: ["Spec", "Code", "Review", "Release"],
+  rows: [
+    { name: "Before AI", counts: [2, 7, 2, 1], slow: 1 },
+    { name: "With AI coding", counts: [5, 1, 8, 4], slow: 2 },
+  ],
+};
+
 const theses = [
   {
-    line: "AI changes more than the editor.",
-    elab: "It changes how teams make product decisions, design systems, and move work from idea to production.",
+    line: "AI changes the organization, not only the code.",
+    elab: "It changes who decides what, and how work gets specified, reviewed and shipped.",
   },
   {
     line: "Speed exposes weak systems.",
-    elab: "AI makes strong teams faster. It also makes unclear product thinking and fragile architecture fail faster.",
+    elab: "Unclear products and fragile architecture now fail faster.",
   },
   {
-    line: "The whole delivery loop has to change.",
-    elab: "Faster coding pays off only when deciding, reviewing, and releasing speed up with it.",
+    line: "Proof beats trust.",
+    elab: "Agent work ships when tests and the running app prove it, not when it looks right.",
   },
 ];
 
 const facts = [
-  { term: "AI", value: "In daily use long before it was a buzzword" },
   { term: "Experience", value: "20 years building production software" },
   { term: "Industries", value: "Banking, finance, insurance, medtech" },
   { term: "Based in", value: "Olching, near Munich" },
@@ -78,8 +91,7 @@ const graphNotes = [
         <h1 class="hero-title">Build an <span class="whitespace-nowrap">AI-native</span> product team.</h1>
         <p class="hero-sub">
           Wedecom helps startups and engineering leaders change how their
-          teams plan, build, review, and release software, based on two years
-          of <span class="whitespace-nowrap">hands-on</span> work inside startups.
+          teams plan, build, review and release software.
         </p>
         <div class="hero-actions">
           <a href="/contact" class="btn">Get in touch</a>
@@ -112,67 +124,107 @@ const graphNotes = [
       <p class="lead">Faster code moves the bottleneck.</p>
       <div class="md-prose">
         <p>
-          Most teams start with AI coding assistants. The work then piles up
-          at unclear requirements, slow reviews, fragile architecture, and
-          risky releases.
-        </p>
-        <p>
-          Wedecom works inside your team and sets up how an AI-native
-          organization works, from how the team specifies work to how it
-          reviews, tests, and releases it.
+          AI writes the code in minutes. Then the work waits on unclear specs,
+          slow reviews, fragile architecture and risky releases.
         </p>
       </div>
+      <figure class="flow">
+        <table>
+          <thead>
+            <tr>
+              <td></td>
+              {flow.stages.map((s) => <th scope="col">{s}</th>)}
+            </tr>
+          </thead>
+          <tbody>
+            {flow.rows.map((r) => (
+              <tr>
+                <th scope="row">{r.name}</th>
+                {r.counts.map((n, i) => (
+                  <td class={i === r.slow ? "is-slow" : undefined}>
+                    <span class="flow-dots" aria-hidden="true">
+                      {Array.from({ length: n }, () => <i />)}
+                    </span>
+                    <span class="sr-only">{n} waiting</span>
+                    {i === r.slow && <span class="flow-tag">Bottleneck</span>}
+                  </td>
+                ))}
+              </tr>
+            ))}
+          </tbody>
+        </table>
+        <figcaption>Work waiting at each stage. Illustrative.</figcaption>
+      </figure>
       <ul class="shifts">
         {shifts.map((s) => (
           <li>
+            <svg class="glyph" viewBox="0 0 64 32" aria-hidden="true">
+              {s.glyph === "path" && (
+                <>
+                  <path class="glyph-faint" d="M8,24 C8,-4 56,-4 56,24" />
+                  <path class="glyph-signal" d="M8,24 L56,24" />
+                  <circle class="glyph-node" cx="8" cy="24" r="5" />
+                  <circle class="glyph-done" cx="56" cy="24" r="5" />
+                </>
+              )}
+              {s.glyph === "steps" && (
+                <>
+                  <path class="glyph-faint" d="M4,16 L60,16" />
+                  {[12, 26, 40, 54].map((x) => <circle class="glyph-done" cx={x} cy="16" r="5" />)}
+                </>
+              )}
+              {s.glyph === "team" && (
+                <>
+                  {[8, 20, 44, 56].map((x) => <circle class="glyph-node" cx={x} cy="16" r="5" />)}
+                  <circle class="glyph-done" cx="32" cy="16" r="7" />
+                </>
+              )}
+            </svg>
             <h3>{s.title}</h3>
             <p>{s.text}</p>
           </li>
         ))}
       </ul>
     </Section>
+  </div>
 
-    <Section label="Point of view" id="stance">
-      <ul class="theses">
-        {theses.map((t) => (
-          <li>
-            <strong>{t.line}</strong>
-            <span>{t.elab}</span>
-          </li>
-        ))}
-      </ul>
-    </Section>
+  <div class="band">
+    <div class="wrap">
+      <Section label="Point of view" id="stance">
+        <ul class="theses">
+          {theses.map((t) => (
+            <li>
+              <strong>{t.line}</strong>
+              <span>{t.elab}</span>
+            </li>
+          ))}
+        </ul>
+      </Section>
+    </div>
+  </div>
 
+  <div class="wrap">
     <Section label="Who you work with" id="profile">
       <div class="founder">
-        <div class="md-prose">
-          <p>
-            Wedecom is led by <strong>Matthias Wesolowski</strong>, a software
-            engineer who has built production software for twenty years.
-          </p>
-          <p>
-            He picked up AI early, before it was a pitch-deck line. Several
-            startups have since brought him in as advisor and as engineer, and
-            there he learned how an AI-native organization runs and what it
-            takes to build one.
-          </p>
-          <p>
-            He helps teams decide what to build, how to structure it, where AI
-            helps and where it adds risk, and how to ship it.
-          </p>
-          <p>
-            Matthias works directly in the team's repositories, code reviews,
-            and planning sessions.
-          </p>
+        <Image src={portrait} alt="Matthias Wesolowski" width={200} height={200} densities={[1, 2]} class="founder-photo" />
+        <div>
+          <p class="lead founder-name">Matthias Wesolowski</p>
+          <div class="md-prose">
+            <p>
+              Founder of Wedecom. Startups bring him in as advisor and engineer
+              to build AI-native teams. He works in your repositories, reviews
+              and planning, not in slide decks.
+            </p>
+          </div>
+          <dl class="facts">
+            {facts.map((f) => (
+              <div>
+                <dt>{f.term}</dt>
+                <dd>{f.value}</dd>
+              </div>
+            ))}
+          </dl>
         </div>
-        <dl class="facts">
-          {facts.map((f) => (
-            <div>
-              <dt>{f.term}</dt>
-              <dd>{f.value}</dd>
-            </div>
-          ))}
-        </dl>
       </div>
     </Section>
   </div>
