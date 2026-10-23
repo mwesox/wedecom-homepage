@@ -26,11 +26,10 @@ const shifts = [
 // `at` is where a stage peaks on the timeline (0 to 1), `spread` how long
 // it runs, `height` how much effort it takes. `slow` is the bottleneck.
 type Wave = { stage: string; at: number; spread: number; height: number };
-const effort: { name: string; summary: string; shipped: number; slow: string; waves: Wave[] }[] = [
+const effort: { name: string; summary: string; slow: string; waves: Wave[] }[] = [
   {
     name: "Before AI",
     summary: "Before AI, coding takes the most effort and shipping comes late.",
-    shipped: 0.82,
     slow: "Code",
     waves: [
       { stage: "Spec", at: 0.14, spread: 0.09, height: 0.3 },
@@ -41,7 +40,6 @@ const effort: { name: string; summary: string; shipped: number; slow: string; wa
   {
     name: "With AI",
     summary: "With AI, the spec still takes the most effort, but less waiting. Coding shrinks, and shipping comes earlier.",
-    shipped: 0.48,
     slow: "Spec",
     waves: [
       { stage: "Spec", at: 0.13, spread: 0.055, height: 0.62 },
@@ -62,6 +60,8 @@ const wavePath = (w: Wave) => {
   }
   return `M${points.join(" L")} L${chartWidth},${baseline} L0,${baseline} Z`;
 };
+// Shipped once the last wave has died out, three spreads past its peak.
+const shippedAt = (waves: Wave[]) => Math.max(...waves.map((w) => w.at + 3 * w.spread)) * chartWidth;
 
 const theses = [
   {
@@ -172,8 +172,8 @@ const graphNotes = [
               {row.waves.map((w) => (
                 <text class={w.stage === row.slow ? "wave-label wave-label-slow" : "wave-label"} x={w.at * chartWidth} y={waveTop(w) - 10}>{w.stage}</text>
               ))}
-              <circle class="effort-ship" cx={row.shipped * chartWidth} cy={baseline} r="7" />
-              <text class="effort-ship-label" x={row.shipped * chartWidth} y={baseline + 26}>Shipped</text>
+              <circle class="effort-ship" cx={shippedAt(row.waves)} cy={baseline} r="7" />
+              <text class="effort-ship-label" x={shippedAt(row.waves)} y={baseline + 26}>Shipped</text>
             </svg>
           </div>
         ))}
