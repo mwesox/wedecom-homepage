@@ -30,25 +30,23 @@ const effort: { name: string; summary: string; shipped: number; slow: string; wa
   {
     name: "Before AI",
     summary: "Before AI, coding takes the most effort and shipping comes late.",
-    shipped: 0.93,
+    shipped: 0.82,
     slow: "Code",
     waves: [
       { stage: "Spec", at: 0.14, spread: 0.09, height: 0.3 },
       { stage: "Code", at: 0.42, spread: 0.13, height: 0.95 },
       { stage: "Verify", at: 0.68, spread: 0.07, height: 0.5 },
-      { stage: "Release", at: 0.86, spread: 0.035, height: 0.35 },
     ],
   },
   {
     name: "With AI",
     summary: "With AI, the spec still takes the most effort, but less waiting. Coding shrinks, and shipping comes earlier.",
-    shipped: 0.58,
+    shipped: 0.48,
     slow: "Spec",
     waves: [
       { stage: "Spec", at: 0.13, spread: 0.055, height: 0.62 },
       { stage: "Code", at: 0.27, spread: 0.035, height: 0.3 },
       { stage: "Verify", at: 0.385, spread: 0.05, height: 0.45 },
-      { stage: "Release", at: 0.52, spread: 0.028, height: 0.35 },
     ],
   },
 ];
